@@ -1,8 +1,6 @@
 ## アプリケーション名
 
-○○
-↑
-1⃣①②3書き換え必須
+coachtechフリマ
 
 ## 環境構築
 
@@ -13,8 +11,8 @@
 ```
 コマンドライン上
 
-git clone git@github.com:HIDE52/hide-kadai1.git
-mv hide-kadai1 FashionablyLate
+git clone git@github.com:HIDE52/hide-fremaapp.git
+mv hide-fremaapp coachtechフリマ
 ```
 
 ② 開発環境を構築します。
@@ -22,12 +20,12 @@ mv hide-kadai1 FashionablyLate
 ```
 コマンドライン上
 
-cd FashionablyLate
+cd coachtechフリマ
 docker-compose up -d --build
 code .
 ```
 
-③「Docker Desktop 」の確認を行い、FashionablyLateコンテナが作成されているか確認を行います。
+③「Docker Desktop 」の確認を行い、「coachtechフリマ」コンテナが作成されているか確認を行います。
 
 2⃣　Laravelの初期設定
 
@@ -70,13 +68,21 @@ DB_PASSWORD=laravel_pass
 
 ④ セキュリティに必要な「鍵」を作ります。
 
-php artisan key:generate
-
 ```
 PHPコンテナ上
 
 php artisan key:generate
 ```
+
+⑤ 画像を表示させるために実行します。
+
+```
+PHPコンテナ上
+
+php artisan storage:link
+```
+
+
 
 3⃣ データベースの構築
 
@@ -95,6 +101,7 @@ PHPコンテナ上
 
 php artisan db:seed
 ```
+４
 
 ## 使用技術(実行環境)
 
@@ -105,11 +112,11 @@ php artisan db:seed
 
 ## URL
 
-参考例、書き換え必須
-お問い合わせ画面：http://localhost/
+商品一覧トップ画面：http://localhost/
 ユーザー登録：http://localhost/register
 ログイン：http://localhost/login
 phpMyAdmin (DB確認ツール)：http://localhost:8080/
+メール確認 (Mailhog):http://localhost:8025/
 
 ## ER図
 

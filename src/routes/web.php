@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ItemController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +15,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+// サイトのトップ（/）にアクセスが来たら、ItemControllerのindexアクションを呼ぶ
+Route::get('/', [ItemController::class, 'index']);
+Route::middleware('auth')->group(function () {
+    // プロフィール編集画面の表示(GET)と更新(POST)
+    Route::get('/mypage/profile', [UserController::class, 'edit'])->name('profile.edit');
+    Route::post('/mypage/profile', [UserController::class, 'update'])->name('profile.update');
 });
