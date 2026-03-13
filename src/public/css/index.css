@@ -1,0 +1,116 @@
+/* --- 全体レイアウト --- */
+.index__content {
+    width: 100%;
+    padding-top: 40px;
+    /* ヘッダーとの間の余白 */
+    display: flex;
+    justify-content: center;
+}
+
+.index__inner {
+    /* ヘッダーの max-width: 1400px と同期させる */
+    max-width: 1400px;
+    width: 95%;
+    margin: 0 auto;
+}
+
+/* --- ① タブメニューの配置（修正ポイント） --- */
+.index__tabs {
+    display: flex;
+    gap: 40px;
+    /* 「おすすめ」と「マイリスト」の間の距離 */
+    margin-bottom: 30px;
+    border-bottom: 1px solid #ddd;
+    /* 下の境界線 */
+    /* ★ここを調整して右にずらします
+       Figma案（1512px）に近づけるため、左側に大きな余白（150px〜）を作ります
+    */
+    padding-left: 150px;
+}
+
+.index__tab {
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    padding-bottom: 10px;
+    position: relative;
+    white-space: nowrap;
+}
+
+.index__tab--active {
+    color: #ff4d4d;
+}
+
+/* アクティブなタブの下の赤い線 */
+.index__tab--active::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: #ff4d4d;
+}
+
+/* --- ② 商品リストの並び方（修正ポイント） --- */
+.item-list {
+    display: flex;
+    flex-wrap: wrap;
+    /* 端で折り返す設定 */
+    /* 「左右に散らばる（space-between）」のではなく、
+       「左から詰める（flex-start）」に設定。これで3列目が左寄せになります。
+    */
+    justify-content: flex-start;
+    /* 商品カード同士の横の隙間を固定（例: 30px） */
+    column-gap: 30px;
+    row-gap: 50px;
+    /* 上下の行の隙間 */
+}
+
+/* --- 商品カードの計算 --- */
+.item-card {
+    /* 4つ並べるための精密計算：
+       (全体100% - 隙間30px × 3箇所) / 4枚 = 1枚の幅
+    */
+    width: calc((100% - 90px) / 4);
+    margin-bottom: 20px;
+}
+
+.item-card__link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.item-card__img-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    /* 正方形を維持 */
+    background-color: #f0f0f0;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.item-card__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.item-card__name {
+    margin-top: 15px;
+    font-size: 18px;
+    color: #333;
+}
+
+/* --- Soldラベル --- */
+.item-card__sold-label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(255, 77, 77, 0.9);
+    color: #fff;
+    padding: 5px 15px;
+    font-weight: bold;
+}

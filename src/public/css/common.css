@@ -1,17 +1,44 @@
+
+/* --- ヘッダー全体の見た目 --- */
 .header {
     background-color: #000000;
+    /* 背景を黒に固定 */
     height: 80px;
+    /* 高さをしっかり確保 */
+    display: flex;
+    align-items: center;
     width: 100%;
 }
 
+/* -------------------------------------------
+   共通の「箱（コンテナ）」のルール
+------------------------------------------- */
+.header__container,
+.main__container {
+    max-width: 1400px;
+    /* 最大の横幅 */
+    margin: 0 auto;
+    /* 左右中央寄せ */
+    width: 92%;
+    /* 1400px以下の時の遊び（ゆとり） */
+}
+
+/* -------------------------------------------
+   メインコンテンツ全体の余白
+------------------------------------------- */
+.main {
+    padding-top: 40px;
+    /* ヘッダーとの間隔 */
+    padding-bottom: 40px;
+    /* 画面下部の余白 */
+}
+
+/* 既存の .header__container の個別設定は、共通項目を除いてスリムにします */
 .header__container {
     display: flex;
     align-items: center;
     justify-content: space-between;
     height: 100%;
-    width: 95%;
-    max-width: 1400px;
-    margin: 0 auto;
 }
 
 .header__left {
@@ -53,6 +80,12 @@
     flex-shrink: 0;
 }
 
+/* フォーム自体の余白をゼロにし、中身をインラインにする */
+.header__logout-form {
+    margin: 0;
+    display: inline;
+}
+
 .header__nav-link,
 .header__nav-button {
     color: #ffffff;
@@ -66,7 +99,7 @@
 
 .header__nav-btn {
     background-color: #ffffff;
-    color: #ff4d4d !important;
+    color: #000000;
     padding: 6px 20px;
     border-radius: 4px;
     font-weight: bold;

@@ -21,7 +21,7 @@
             </div>
 
             <div class="header__center">
-                {{-- もし現在のURLが「/（トップページ）」の時だけ表示する --}}
+                {{-- 現在のURLがトップページ（/）の時だけ検索窓を出す --}}
                 @if (Request::is('/'))
                 <form action="/search" method="GET" class="header__search-form">
                     <input type="text" name="keyword" placeholder="なにをお探しですか？" class="header__search-input">
@@ -31,22 +31,29 @@
 
             <nav class="header__right">
                 <ul class="header__nav-list">
+                    {{-- 【認証後】ログインしている人のための表示 --}}
                     @auth
-                    <li class="header__nav-item"><button class="header__nav-button">ログアウト</button></li>
+                    <li class="header__nav-item">
+                        <form class="header__logout-form" action="/logout" method="post">
+                            @csrf
+                            <button type="submit" class="header__nav-button">ログアウト</button>
+                        </form>
+                    </li>
                     <li class="header__nav-item"><a href="/mypage" class="header__nav-link">マイページ</a></li>
                     <li class="header__nav-item"><a href="/sell" class="header__nav-btn">出品</a></li>
                     @endauth
 
-                    {{-- 修正案：すべてを条件分岐の「箱」に閉じ込める --}}
+                    {{-- 【未認証】ログインしていない人（ゲスト）のための表示 --}}
                     @guest
+                    {{-- ログイン画面や登録画面自体を表示している時は、ヘッダーにボタンを出さない --}}
                     @if (!Request::is('login') && !Request::is('register'))
                     <li class="header__nav-item">
                         <a href="/login" class="header__nav-link">ログイン</a>
                     </li>
+                    {{-- 未認証時もマイページは出す（クリックすればログインへ誘導される） --}}
                     <li class="header__nav-item">
-                        <a href="/register" class="header__nav-link">会員登録</a>
+                        <a href="/mypage" class="header__nav-link">マイページ</a>
                     </li>
-                    {{-- 出品ボタンもこの中に入れる！ --}}
                     <li class="header__nav-item">
                         <a href="/sell" class="header__nav-btn">出品</a>
                     </li>
@@ -57,10 +64,11 @@
 
         </div>
     </header>
-    </header>
 
     <main>
-        @yield('content')
+        <div class="main__container">
+            @yield('content')
+        </div>
     </main>
 </body>
 

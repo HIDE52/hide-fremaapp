@@ -1,0 +1,100 @@
+/* --- ログイン画面全体のレイアウト --- */
+.login__content {
+    padding: 60px 0;
+    display: flex;
+    /* 指揮官を配置 */
+    flex-direction: column;
+    /* 縦に並べる */
+    align-items: center;
+    /* 左右中央に寄せる */
+    width: 100%;
+    /* 画面いっぱいの幅の中で中央を探す */
+}
+
+.login__heading {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.login__heading h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* フォームの横幅を固定して中央に置くための箱 */
+.login__form-inner {
+    width: 92%;
+    /* 画面が狭い時の遊び */
+    max-width: 500px;
+    /* 登録画面(register)と同じ幅 */
+}
+
+/* --- フォーム内の各パーツ（会員登録画面と完全一致） --- */
+.form__group {
+    margin-bottom: 20px;
+    /* 項目ごとの均一な余白 */
+    width: 100%;
+}
+
+.form__group-title {
+    margin-bottom: 8px;
+}
+
+.form__label--item {
+    font-size: 16px;
+    font-weight: normal;
+    color: #333;
+}
+
+.form__input {
+    width: 100%;
+    height: 45px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    /* 枠線を含めて幅を計算する */
+    font-size: 16px;
+}
+
+.form__error {
+    color: #ff4d4d;
+    /* ログイン情報が登録されていません 等の赤字 */
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+/* --- ボタン周りの調整（均一感を出すポイント） --- */
+.form__button {
+    margin-top: 40px;
+    /* 登録画面と同じ「均一な空き」を作る */
+    width: 100%;
+}
+
+.form__button-submit {
+    width: 100%;
+    padding: 12px 0;
+    background-color: #ff4d4d;
+    /* コーチテック指定の赤色 */
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* --- 下部リンク（会員登録はこちら） --- */
+.login__link {
+    text-align: center;
+    margin-top: 20px;
+    display: block;
+    /* 確実に表示させる */
+}
+
+.login__link a {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 14px;
+}

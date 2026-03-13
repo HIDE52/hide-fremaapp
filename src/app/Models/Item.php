@@ -26,4 +26,20 @@ class Item extends Model
     {
         return $this->belongsToMany(Category::class);
     }
+
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
+
+    /**
+     * orderリレーション: 商品と注文の紐付け（工程④のSold判定で使います）
+     * 根拠: 商品一覧で Sold ラベルを出すために、注文データが存在するかを確認するため
+     */
+    public function order()
+    {
+        return $this->hasOne(Order::class);
+    }
+
+
 }

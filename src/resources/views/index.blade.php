@@ -1,26 +1,49 @@
 @extends('layouts.app')
 
 @section('css')
+{{-- asset関数を使って、public/css/index.css を読み込みます --}}
 <link rel="stylesheet" href="{{ asset('css/index.css')}}">
 @endsection
 
 @section('content')
-<h1>商品一覧ページ</h1>
+<div class="index__content">
+    <div class="index__inner">
 
-<div style="display: flex; flex-wrap: wrap;">
-    @foreach($items as $item)
-    <div style="border: 1px solid #ccc; margin: 10px; padding: 10px; width: 200px;">
-        <img src="{{ $item->img_url }}" alt="{{ $item->name }}" style="width: 100%;">
+        {{-- タブ部分：現時点では「おすすめ」をアクティブに固定していますが、
+             今後のタスク（マイリスト実装）でここを動的に切り替えます --}}
+        <div class="index__tabs">
+            <a href="/" class="index__tab index__tab--active">おすすめ</a>
+            <a href="/?tab=mylist" class="index__tab">マイリスト</a>
+        </div>
 
-        <h3>{{ $item->name }}</h3>
-        <p>価格：{{ number_format($item->price) }}円</p>
+        {{-- 商品一覧：Controllerから渡された $items をループで回します --}}
+        <div class="item-list">
+            @foreach($items as $item)
+            <div class="item-card">
+                {{-- 根拠：基本設計書のパス /item/{item_id} に合わせてリンクを作成 --}}
+                <a href="{{ route('item.show', ['item_id' => $item->id]) }}" class="item-card__link">
 
-        {{-- ★ここを追加！ブランド名を表示する --}}
-        {{-- $item->brand_name が空(null)なら 'なし' と表示されます --}}
-        <p>ブランド：{{ $item->brand_name ?? 'なし' }}</p>
+                    <div class="item-card__img-wrapper">
+                        {{-- 根拠：FN014-2 商品画像の表示 --}}
+                        <img src="{{ $item->img_url }}" alt="{{ $item->name }}" class="item-card__img">
 
-        <p>状態：{{ $item->condition }}</p>
+                        {{-- 売り切れ時のラベル（判定ロジックの修正）
+                             根拠：FN014-3 購入済み商品は "Sold" と表示される
+                             視点：Itemsテーブルに列を増やさず、Orderテーブルとの接続(リレーション)で判定します --}}
+                        @if($item->order)
+                        <span class="item-card__sold-label">Sold</span>
+                        @endif
+                    </div>
+
+                    <div class="item-card__content">
+                        {{-- 根拠：FN014-2 商品名の表示 --}}
+                        <p class="item-card__name">{{ $item->name }}</p>
+                    </div>
+                </a>
+            </div>
+            @endforeach
+        </div>
+
     </div>
-    @endforeach
 </div>
 @endsection
