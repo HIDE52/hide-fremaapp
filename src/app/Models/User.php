@@ -46,13 +46,16 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function items()
+    /**
+     * likeItemsリレーション: ユーザーが「いいね」した商品の一覧を取得する（マイリスト用）
+     * 視点：1人のユーザーはたくさんの商品に「いいね」できます
+     * 「user_id」と「item_id」を記録した「likes」テーブル（中間テーブル）を通じて
+     * 繋がっている items テーブルのデータを持ってきます。
+     */
+    public function likeItems()
     {
-        return $this->hasMany(Item::class);
-    }
-
-    public function likes()
-    {
-        return $this->hasMany(Like::class);
+        // belongsToMany(相手のモデル, 中間テーブル名)
+        // メソッド名を likes ではなく likeItems とすることで「いいねした商品」であることが明確になります
+        return $this->belongsToMany(Item::class, 'likes');
     }
 }

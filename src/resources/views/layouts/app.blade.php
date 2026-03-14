@@ -21,10 +21,11 @@
             </div>
 
             <div class="header__center">
-                {{-- 現在のURLがトップページ（/）の時だけ検索窓を出す --}}
-                @if (Request::is('/'))
-                <form action="/search" method="GET" class="header__search-form">
-                    <input type="text" name="keyword" placeholder="なにをお探しですか？" class="header__search-input">
+                {{-- 【修正箇所】Request::is('/') だけでなく、マイリストタブ表示中なども検索窓が出るように調整 --}}
+                {{-- また、actionを基本設計のルート（/）に合わせ、入力保持(value)を追加しました --}}
+                @if (!Request::is('login') && !Request::is('register'))
+                <form action="/" method="GET" class="header__search-form">
+                    <input type="text" name="keyword" placeholder="なにをお探しですか？" class="header__search-input" value="{{ request('keyword') }}">
                 </form>
                 @endif
             </div>
@@ -45,12 +46,10 @@
 
                     {{-- 【未認証】ログインしていない人（ゲスト）のための表示 --}}
                     @guest
-                    {{-- ログイン画面や登録画面自体を表示している時は、ヘッダーにボタンを出さない --}}
                     @if (!Request::is('login') && !Request::is('register'))
                     <li class="header__nav-item">
                         <a href="/login" class="header__nav-link">ログイン</a>
                     </li>
-                    {{-- 未認証時もマイページは出す（クリックすればログインへ誘導される） --}}
                     <li class="header__nav-item">
                         <a href="/mypage" class="header__nav-link">マイページ</a>
                     </li>
