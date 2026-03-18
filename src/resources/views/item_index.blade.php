@@ -27,7 +27,7 @@
                         @if (\Illuminate\Support\Str::startsWith($item->img_url, 'http'))
                         <img src="{{ $item->img_url }}" alt="{{ $item->name }}" class="item-card__img">
                         @else
-                        <img src="{{ asset('storage/' . $item->img_url) }}" alt="{{ $item->name }}" class="item-card__img">
+                        <img src="{{ asset($item->img_url) }}" alt="{{ $item->name }}" class="item-card__img">
                         @endif
 
                         @if ($item->order)
@@ -46,3 +46,6 @@
     </div>
 </div>
 @endsection
+
+
+

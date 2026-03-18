@@ -30,7 +30,7 @@ class ItemController extends Controller
 
     public function show($item_id)
     {
-        $item = Item::with(['categories', 'comments'])->findOrFail($item_id);
+        $item = Item::with(['categories', 'comments', 'likes'])->findOrFail($item_id);
         return view('item_detail', compact('item'));
     }
 
@@ -39,3 +39,4 @@ class ItemController extends Controller
         return view('item_sell');
     }
 }
+

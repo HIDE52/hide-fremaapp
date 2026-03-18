@@ -55,6 +55,10 @@ class Item extends Model
 
     public function isLikedByAuthUser()
     {
-        return $this->likes()->where('user_id', Auth::id())->exists();
+        if (!Auth::check()) {
+            return false;
+        }
+
+        return $this->likes->contains('id', Auth::id());
     }
 }
