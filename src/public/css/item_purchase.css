@@ -1,0 +1,79 @@
+/* --- レイアウト共通設定の調整 --- */
+.purchase__container {
+    max-width: 900px;
+    /* 【重要】全体の幅を少し絞り、情報が散らばらないようにします */
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.purchase__content {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+}
+
+/* --- 左側：メインカラムの幅調整 --- */
+.purchase__main-column {
+    flex: 0 1 60%;
+    /* 【重要】左側のコンテンツが広がりすぎないようにします（幅の60%） */
+}
+
+/* --- 商品カードと画像の調整 --- */
+.purchase__item-card {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    /* 上下中央に配置 */
+}
+
+.purchase__item-image {
+    flex: 0 0 180px;
+    /* 【重要】画像の枠を180pxで固定します */
+    width: 180px;
+    height: 180px;
+    background: #f0f0f0;
+    overflow: hidden;
+    /* 枠からはみ出した画像を隠す */
+    border-radius: 4px;
+    /* 少し角を丸く */
+}
+
+.purchase__item-image img {
+    width: 10%;
+    height: 10%;
+    object-fit: cover;
+    /* 【重要】画像が枠いっぱいに綺麗に収まるようにします */
+}
+
+.purchase__item-detail {
+    flex: 1;
+    /* 残りのスペースを全て使います */
+}
+
+/* --- 各セクションの余白調整 --- */
+.purchase__section {
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+
+.purchase__section-title {
+    font-size: 16px;
+    /* 文字サイズを少し調整 */
+    margin-bottom: 10px;
+}
+
+/* --- 右側：サイドカラムの固定 --- */
+.purchase__side-column {
+    flex: 0 0 300px;
+    /* 【重要】右側の確認エリアを300pxで固定します */
+    width: 300px;
+    position: sticky;
+    /* スクロールしてもついてくるように（便利！） */
+    top: 20px;
+}
+
+.purchase__submit-btn {
+    width: 100%;
+    padding: 12px;
+    /* 少しスリムに */
+}

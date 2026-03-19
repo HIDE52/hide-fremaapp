@@ -18,11 +18,16 @@ class UserController extends Controller
         return view('mypage.profile', compact('user', 'page'));
     }
 
-    public function purchase($item_id)
+    public function purchase(Request $request, $item_id)
     {
         $item = Item::findOrFail($item_id);
+        $user = Auth::user();
 
-        return view('item_purchase', compact('item'));
+        $address = session('new_address', $user->address);
+        $postcode = session('new_postcode', $user->postcode);
+        $building = session('new_building', $user->building);
+
+        return view('item_purchase', compact('item', 'user', 'address', 'postcode', 'building'));
     }
 
     public function buy(Request $request, $item_id)

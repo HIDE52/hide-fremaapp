@@ -41,20 +41,26 @@
                     </div>
 
                     <div class="item-detail__action-item">
-                        <span class="item-detail__icon--comment">💬</span>
+                        <a href="#comment-form" class="item-detail__comment-link">
+                            <span class="item-detail__icon--comment">💬</span>
+                        </a>
                         <span class="item-detail__count">{{ $item->comments->count() }}</span>
                     </div>
                 </div>
 
                 <div class="item-detail__btn-group">
-                    <a href="{{ route('item.purchase', ['item_id' => $item->id]) }}" class="item-detail__purchase-btn">購入手続きへ</a>
+                    @if($item->order)
+                    <button class="item-detail__purchase-btn is-sold" disabled>売り切れました</button>
+                    @else
+                    <a href="{{ route('item.purchase', ['item_id' => $item->id]) }}" class="item-detail__purchase-btn">
+                        購入手続きへ
+                    </a>
+                    @endif
                 </div>
 
                 <div class="item-detail__section">
                     <h2 class="item-detail__section-title">商品の説明</h2>
-                    <p class="item-detail__description-text">
-                        {{ $item->description }}
-                    </p>
+                    <p class="item-detail__description-text">{{ $item->description }}</p>
                 </div>
 
                 <div class="item-detail__section">
@@ -73,7 +79,7 @@
                     </div>
                 </div>
 
-                <div class="item-detail__comment-section">
+                <div id="comment-form" class="item-detail__comment-section">
                     <h2 class="item-detail__comment-count">コメント({{ $item->comments->count() }})</h2>
                     @foreach($item->comments as $comment)
                     <div class="item-detail__comment-item">
@@ -92,12 +98,28 @@
                     @endforeach
                 </div>
 
-                <form action="#" method="POST" class="item-detail__comment-form">
+                @auth
+                <form action="{{ route('comment.store', ['item_id' => $item->id]) }}" method="POST" class="item-detail__comment-form">
                     @csrf
                     <h3 class="item-detail__comment-form-title">商品へのコメント</h3>
-                    <textarea name="comment" class="item-detail__comment-textarea" placeholder="コメントを入力してください"></textarea>
+
+                    @error('comment')
+                    <p class="item-detail__comment-error">{{ $message }}</p>
+                    @enderror
+
+                    <textarea name="comment"
+                        class="item-detail__comment-textarea @error('comment') is-error @enderror"
+                        placeholder="コメントを入力してください">{{ old('comment') }}</textarea>
+
                     <button type="submit" class="item-detail__comment-submit">コメントを送信する</button>
                 </form>
+                @else
+                <div class="item-detail__comment-form">
+                    <p class="item-detail__comment-login-msg">
+                        コメントを投稿するには<a href="{{ route('login') }}">ログイン</a>が必要です。
+                    </p>
+                </div>
+                @endauth
 
             </div>
         </div>
