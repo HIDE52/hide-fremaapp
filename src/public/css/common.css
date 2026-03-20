@@ -1,68 +1,58 @@
-
-/* --- ヘッダー全体の見た目 --- */
-.header {
-    background-color: #000000;
-    /* 背景を黒に固定 */
-    height: 80px;
-    /* 高さをしっかり確保 */
-    display: flex;
-    align-items: center;
-    width: 100%;
+* {
+    box-sizing: border-box;
 }
 
-/* -------------------------------------------
-   共通の「箱（コンテナ）」のルール
-------------------------------------------- */
-.header__container,
+.common-header__inner,
 .main__container {
     max-width: 1400px;
-    /* 最大の横幅 */
     margin: 0 auto;
-    /* 左右中央寄せ */
     width: 92%;
-    /* 1400px以下の時の遊び（ゆとり） */
 }
 
-/* -------------------------------------------
-   メインコンテンツ全体の余白
-------------------------------------------- */
+.common-header {
+    background-color: #000000;
+    height: 80px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
 .main {
     padding-top: 40px;
-    /* ヘッダーとの間隔 */
     padding-bottom: 40px;
-    /* 画面下部の余白 */
 }
 
-/* 既存の .header__container の個別設定は、共通項目を除いてスリムにします */
-.header__container {
+.common-header__inner {
     display: flex;
     align-items: center;
     justify-content: space-between;
     height: 100%;
 }
 
-.header__left {
+.common-header__logo {
     flex-shrink: 0;
 }
 
-.header__logo-img {
+.common-header__logo-img {
     height: 30px;
     width: auto;
+    display: block;
 }
 
-.header__center {
+.common-header__search {
     flex-grow: 1;
     display: flex;
     justify-content: center;
     margin: 0 40px;
+    min-width: 200px;
 }
 
-.header__search-form {
+.common-header__search-form {
     width: 100%;
     max-width: 500px;
 }
 
-.header__search-input {
+.common-header__search-input {
     width: 100%;
     padding: 8px 15px;
     border-radius: 4px;
@@ -70,7 +60,7 @@
     font-size: 16px;
 }
 
-.header__nav-list {
+.common-header__nav-list {
     display: flex;
     list-style: none;
     gap: 30px;
@@ -78,26 +68,31 @@
     margin: 0;
     padding: 0;
     flex-shrink: 0;
+    white-space: nowrap;
 }
 
-/* フォーム自体の余白をゼロにし、中身をインラインにする */
-.header__logout-form {
+.common-header__logout-form {
     margin: 0;
     display: inline;
 }
 
-.header__nav-link,
-.header__nav-button {
+.common-header__nav-link,
+.common-header__nav-button {
     color: #ffffff;
     text-decoration: none;
     background: none;
     border: none;
     font-size: 16px;
     cursor: pointer;
-    white-space: nowrap;
+    transition: opacity 0.3s;
 }
 
-.header__nav-btn {
+.common-header__nav-link:hover,
+.common-header__nav-button:hover {
+    opacity: 0.8;
+}
+
+.common-header__nav-btn {
     background-color: #ffffff;
     color: #000000;
     padding: 6px 20px;
@@ -105,4 +100,5 @@
     font-weight: bold;
     text-decoration: none;
     font-size: 16px;
+    display: inline-block;
 }

@@ -5,16 +5,16 @@
 @endsection
 
 @section('content')
-{{-- クラス名も register に合わせるか、login に書き換えて構造を統一します --}}
-<div class="login__content">
-    <div class="login__heading">
-        <h2>ログイン</h2>
+<div class="login-form">
+
+    <div class="login-form__header">
+        <h2 class="login-form__title">ログイン</h2>
     </div>
 
-    <div class="login__form-inner">
+    <div class="login-form__body-content">
         <form class="form" action="/login" method="post" novalidate>
             @csrf
-            {{-- メールアドレス --}}
+
             <div class="form__group">
                 <div class="form__group-title">
                     <span class="form__label--item">メールアドレス</span>
@@ -27,7 +27,6 @@
                 </div>
             </div>
 
-            {{-- パスワード --}}
             <div class="form__group">
                 <div class="form__group-title">
                     <span class="form__label--item">パスワード</span>
@@ -40,14 +39,12 @@
                 </div>
             </div>
 
-            {{-- ボタン：ここがポイント --}}
-            <div class="form__button">
-                <button class="form__button-submit" type="submit">ログインする</button>
+            <div class="login-form__btn-group">
+                <button class="login-form__btn-submit" type="submit">ログインする</button>
             </div>
         </form>
 
-        {{-- 会員登録画面へのリンク --}}
-        <div class="login__link">
+        <div class="login-form__link">
             <a href="/register">会員登録はこちら</a>
         </div>
     </div>

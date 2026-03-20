@@ -11,46 +11,41 @@
 </head>
 
 <body>
-    <header class="header">
-        <div class="header__container">
-            <div class="header__left">
-                <a href="/" class="header__logo-link">
-                    <img src="{{ asset('css/img/COACHTECHヘッダーロゴ.png') }}" alt="coachtech" class="header__logo-img">
+    <header class="common-header">
+        <div class="common-header__inner">
+
+            <div class="common-header__logo">
+                <a href="/" class="common-header__logo-link">
+                    <img src="{{ asset('css/img/COACHTECHヘッダーロゴ.png') }}" alt="coachtech" class="common-header__logo-img">
                 </a>
             </div>
 
-            <div class="header__center">
-                @if (!Request::is('login') && !Request::is('register'))
-                <form action="/" method="GET" class="header__search-form">
-                    <input type="text" name="keyword" placeholder="なにをお探しですか？" class="header__search-input" value="{{ request('keyword') }}">
+            @if (!Request::is('login') && !Request::is('register'))
+            <div class="common-header__search">
+                <form action="/" method="GET" class="common-header__search-form">
+                    <input type="text" name="keyword" placeholder="なにをお探しですか？" class="common-header__search-input" value="{{ request('keyword') }}">
                 </form>
-                @endif
             </div>
+            @endif
 
-            <nav class="header__right">
-                <ul class="header__nav-list">
+            <nav class="common-header__nav">
+                <ul class="common-header__nav-list">
                     @auth
-                    <li class="header__nav-item">
-                        <form class="header__logout-form" action="/logout" method="post">
+                    <li class="common-header__nav-item">
+                        <form class="common-header__logout-form" action="/logout" method="post">
                             @csrf
-                            <button type="submit" class="header__nav-button">ログアウト</button>
+                            <button type="submit" class="common-header__nav-button">ログアウト</button>
                         </form>
                     </li>
-                    <li class="header__nav-item"><a href="/mypage" class="header__nav-link">マイページ</a></li>
-                    <li class="header__nav-item"><a href="/sell" class="header__nav-btn">出品</a></li>
+                    <li class="common-header__nav-item"><a href="/mypage" class="common-header__nav-link">マイページ</a></li>
+                    <li class="common-header__nav-item"><a href="/sell" class="common-header__nav-btn">出品</a></li>
                     @endauth
 
                     @guest
                     @if (!Request::is('login') && !Request::is('register'))
-                    <li class="header__nav-item">
-                        <a href="/login" class="header__nav-link">ログイン</a>
-                    </li>
-                    <li class="header__nav-item">
-                        <a href="/mypage" class="header__nav-link">マイページ</a>
-                    </li>
-                    <li class="header__nav-item">
-                        <a href="/sell" class="header__nav-btn">出品</a>
-                    </li>
+                    <li class="common-header__nav-item"><a href="/login" class="common-header__nav-link">ログイン</a></li>
+                    <li class="common-header__nav-item"><a href="/mypage" class="common-header__nav-link">マイページ</a></li>
+                    <li class="common-header__nav-item"><a href="/sell" class="common-header__nav-btn">出品</a></li>
                     @endif
                     @endguest
                 </ul>
@@ -58,7 +53,7 @@
         </div>
     </header>
 
-    <main>
+    <main class="main">
         <div class="main__container">
             @yield('content')
         </div>
