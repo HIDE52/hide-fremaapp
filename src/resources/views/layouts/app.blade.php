@@ -22,8 +22,9 @@
 
             @if (!Request::is('login') && !Request::is('register'))
             <div class="common-header__search">
-                <form action="/" method="GET" class="common-header__search-form">
-                    <input type="text" name="keyword" placeholder="なにをお探しですか？" class="common-header__search-input" value="{{ request('keyword') }}">
+                <form action="{{ route('item.index') }}" method="GET" class="common-header__search-form">
+                    <input type="hidden" name="tab" value="{{ request()->query('tab') }}">
+                    <input type="text" name="keyword" class="common-header__search-input" value="{{ request()->query('keyword') }}" placeholder="なにをお探しですか？">
                 </form>
             </div>
             @endif

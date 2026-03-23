@@ -7,9 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 class ProfileRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
+     * ① 誰にこのチェックを許可するか
      */
     public function authorize()
     {
@@ -17,16 +15,32 @@ class ProfileRequest extends FormRequest
     }
 
     /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
+     * ② バリデーションルール（校則）の定義
      */
     public function rules()
     {
         return [
-            'name' => 'required|max:20',
+            'name'      => 'required|string|max:255',
             'post_code' => 'required|regex:/^\d{3}-\d{4}$/',
-            'address' => 'required',
+            'address'   => 'required|string|max:255',
+            'building'  => 'nullable|string|max:255',
+            // 【修正箇所】順番を入れ替えました
+            'img_url'   => 'nullable|mimes:jpeg,png|image|max:2048',
+        ];
+    }
+
+    /**
+     * ③ エラーメッセージの日本語化
+     */
+    public function messages()
+    {
+        return [
+            'name.required'      => 'お名前を入力してください',
+            'post_code.required' => '郵便番号を入力してください',
+            'post_code.regex'    => '郵便番号は「000-0000」の形式で入力してください',
+            'address.required'   => '住所を入力してください',
+            'img_url.image'      => '指定されたファイルが画像ではありません',
+            'img_url.mimes'      => '画像の形式はjpegまたはpngのみ有効です',
         ];
     }
 }

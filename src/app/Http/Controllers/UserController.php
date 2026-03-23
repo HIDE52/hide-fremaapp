@@ -13,9 +13,15 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $user = Auth::user();
-        $page = $request->query('page');
+        $tab = $request->query('tab', 'sell');
 
-        return view('mypage.profile', compact('user', 'page'));
+        if ($tab === 'buy') {
+            $items = $user->orderedItems;
+        } else {
+            $items = $user->items;
+        }
+
+        return view('mypage.profile', compact('user', 'tab', 'items'));
     }
 
     public function purchase(Request $request, $item_id)

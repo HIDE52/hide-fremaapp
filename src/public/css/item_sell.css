@@ -1,0 +1,198 @@
+/* =========================================
+   全体レイアウト
+   ========================================= */
+.exhibit {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.exhibit__title {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 40px;
+    font-weight: bold;
+}
+
+.exhibit__section {
+    margin-bottom: 40px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 30px;
+}
+
+.exhibit__section:last-of-type {
+    border-bottom: none;
+}
+
+.exhibit__section-title {
+    font-size: 18px;
+    color: #666;
+    margin-bottom: 25px;
+    font-weight: bold;
+}
+
+/* =========================================
+   入力パーツ共通
+   ========================================= */
+.exhibit__group {
+    margin-bottom: 20px;
+}
+
+.exhibit__label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.exhibit__input,
+.exhibit__textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+/* =========================================
+   セレクトボックス (Figma再現カスタマイズ)
+   ========================================= */
+.exhibit__select {
+    width: 100%;
+    padding: 12px 40px 12px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #fff;
+
+    /* 標準の矢印を消す */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+
+    /* カスタム矢印(SVG)を背景にセット */
+    background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 12px;
+}
+
+/* ドロップダウンリスト内の色調整 */
+.exhibit__select option {
+    background-color: #333;
+    /* 背景を黒っぽく */
+    color: #fff;
+    /* 文字を白に */
+}
+
+/* =========================================
+   画像アップロード
+   ========================================= */
+.exhibit__img-box {
+    border: 1px dashed #ccc;
+    padding: 60px 20px;
+    text-align: center;
+    border-radius: 4px;
+    background-color: #fafafa;
+}
+
+.exhibit__img-btn {
+    display: inline-block;
+    padding: 8px 25px;
+    border: 1px solid #ff4b4b;
+    color: #ff4b4b;
+    border-radius: 4px;
+    background: #fff;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* =========================================
+   カテゴリー (ボタン風)
+   ========================================= */
+.exhibit__category-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.exhibit__category-item input[type="checkbox"] {
+    display: none;
+}
+
+.exhibit__category-label {
+    display: inline-block;
+    padding: 6px 18px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    background-color: #fff;
+}
+
+.exhibit__category-item input[type="checkbox"]:checked+.exhibit__category-label {
+    background-color: #ff4b4b;
+    color: #fff;
+    border-color: #ff4b4b;
+}
+
+/* =========================================
+   販売価格 (スッキリ下線デザイン)
+   ========================================= */
+.exhibit__group-price {
+    margin-bottom: 20px;
+}
+
+.exhibit__price-container {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #ccc;
+    /* 下線のみ表示 */
+    padding: 10px 0;
+}
+
+.exhibit__price-unit {
+    font-size: 20px;
+    font-weight: bold;
+    margin-right: 15px;
+}
+
+.exhibit__price-input {
+    border: none;
+    width: 100%;
+    font-size: 20px;
+    outline: none;
+    background: transparent;
+}
+
+/* =========================================
+   出品ボタン (横幅100%)
+   ========================================= */
+.exhibit__btn-group {
+    margin-top: 40px;
+}
+
+.exhibit__submit {
+    width: 100%;
+    padding: 16px;
+    background-color: #ff4b4b;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    display: block;
+}
+
+.exhibit__submit:hover {
+    opacity: 0.8;
+}
+
+.exhibit__error {
+    color: #ff4b4b;
+    font-size: 14px;
+    margin-top: 8px;
+    font-weight: bold;
+}
