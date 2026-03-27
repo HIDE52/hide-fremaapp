@@ -44,7 +44,9 @@
 
             <div class="profile-form__group">
                 <label class="profile-form__label">郵便番号</label>
-                <input type="text" name="post_code" class="profile-form__input" value="{{ old('post_code', $user->postcode) }}">
+                <input type="text" name="postcode" class="profile-form__input"
+                    value="{{ old('postcode', $user->postcode) }}"
+                    autocomplete="off"> {{-- ← これが重要！ブラウザへの禁止命令です --}}
                 @error('post_code')
                 <p class="error-message">{{ $message }}</p>
                 @enderror

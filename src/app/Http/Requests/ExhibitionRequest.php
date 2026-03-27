@@ -13,6 +13,7 @@ class ExhibitionRequest extends FormRequest
      */
     public function authorize()
     {
+        // ここは必ず true にしてください
         return true;
     }
 
@@ -24,31 +25,32 @@ class ExhibitionRequest extends FormRequest
     public function rules()
     {
         return [
-            'img_url'     => 'required|mimes:jpeg,png|max:5120', // 画像必須、形式指定
-            'categories'  => 'required',                        // カテゴリー必須
-            'condition'   => 'required',                        // 状態必須
-            'name'        => 'required|max:255',               // 商品名必須
-            'description' => 'required|max:255',               // 説明必須（ご要望通り255文字）
-            'price'       => 'required|integer|min:0',         // 価格必須、数値、0以上
+            'name'        => 'required|max:255',
+            'description' => 'required|max:1000',
+            'price'       => 'required|integer|min:0',
+            'condition'   => 'required',
+            'categories'  => 'required|array',
+            // 'required' を先頭に、その後に形式チェックを並べます
+            'img_url'     => 'required|file|image|mimes:jpeg,png|max:2048',
+            // 'img_url'     => 'required',
         ];
     }
 
-    /**
-     * 3. エラーメッセージ：日本語の案内
-     */
     public function messages()
     {
         return [
-            'img_url.required'    => '商品画像を選択してください',
-            'img_url.mimes'       => '拡張子が.jpegもしくは.pngの画像を選択してください',
-            'categories.required' => '商品のカテゴリーを選択してください',
-            'condition.required'  => '商品の状態を選択してください',
-            'name.required'       => '商品名を入力してください',
+            // ここに日本語メッセージを直接書く
+            'img_url.required'     => '商品画像を選択してください',
+            'img_url.image'        => '指定されたファイルが画像ではありません',
+            'img_url.mimes'        => '拡張子が.jpegもしくは.pngの画像を選択してください',
+            'img_url.max'          => '画像サイズは2MB以内でアップロードしてください',
+            'categories.required'  => '商品のカテゴリーを選択してください',
+            'condition.required'   => '商品の状態を選択してください',
+            'name.required'        => '商品名を入力してください',
             'description.required' => '商品の説明を入力してください',
-            'description.max'     => '商品説明は255文字以内で入力してください',
-            'price.required'      => '商品価格を入力してください',
-            'price.integer'       => '数値型で入力してください',
-            'price.min'           => '0円以上で入力してください',
+            'price.required'       => '商品価格を入力してください',
+            'price.integer'        => '数値（整数）で入力してください',
+            'price.min'            => '0円以上で入力してください',
         ];
     }
 }

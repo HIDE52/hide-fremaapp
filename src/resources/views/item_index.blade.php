@@ -6,6 +6,13 @@
 
 @section('content')
 <div class="item-index">
+    {{-- 追加ポイント：出品完了などのフラッシュメッセージを表示するエリア --}}
+    @if (session('message'))
+    <div class="item-index__flash">
+        {{ session('message') }}
+    </div>
+    @endif
+
     <div class="item-index__tabs">
         <a href="{{ route('item.index', ['keyword' => request('keyword')]) }}"
             class="item-index__tab {{ $tab !== 'mylist' ? 'item-index__tab--active' : '' }}">

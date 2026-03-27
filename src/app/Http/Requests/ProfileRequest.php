@@ -21,7 +21,7 @@ class ProfileRequest extends FormRequest
     {
         return [
             'name'      => 'required|string|max:255',
-            'post_code' => 'required|regex:/^\d{3}-\d{4}$/',
+            'postcode' => 'required|regex:/^\d{3}-\d{4}$/',
             'address'   => 'required|string|max:255',
             'building'  => 'nullable|string|max:255',
             // 【修正箇所】順番を入れ替えました

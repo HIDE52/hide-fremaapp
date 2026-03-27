@@ -11,7 +11,7 @@ Route::get('/', [ItemController::class, 'index'])->name('item.index');
 Route::get('/item/{item_id}', [ItemController::class, 'show'])->name('item.show');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/sell', [ItemController::class, 'sell'])->name('item.sell');
+    Route::get('/sell', [ItemController::class, 'create'])->name('item.create');
     Route::post('/sell', [ItemController::class, 'store'])->name('item.store');
 
     Route::get('/mypage', [UserController::class, 'index'])->name('mypage');
