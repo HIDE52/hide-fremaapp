@@ -88,7 +88,10 @@
 
 <script src="https://js.stripe.com/v3/"></script>
 <script>
-    const stripe = Stripe("{{ env('STRIPE_PUBLIC_KEY') }}");
+    // item_purchase.blade.php の 101行目付近
+    // 修正前：const stripe = Stripe("{{ env('STRIPE_PUBLIC_KEY') }}");
+    // 修正後：
+    const stripe = Stripe("{{ config('services.stripe.key') }}");
     const elements = stripe.elements();
     const card = elements.create('card', {
         hidePostalCode: true
@@ -105,10 +108,13 @@
 
         if (paymentSelect.value === 'card') {
             cardFormContainer.style.display = 'block';
-            card.mount('#card-element');
+            // すでにマウントされているかチェックしてからマウントする
+            if (!document.getElementById('card-element').hasChildNodes()) {
+                card.mount('#card-element');
+            }
         } else {
             cardFormContainer.style.display = 'none';
-            card.unmount();
+            // unmount() はせず、非表示にするだけに留めるのがスムーズです
         }
     }
 

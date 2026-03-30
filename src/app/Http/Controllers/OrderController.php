@@ -69,7 +69,7 @@ class OrderController extends Controller
                         'description' => '商品購入: ' . $item->name,
                         'off_session' => true,
                     ]);
-
+                    
                     $stripe_id = $intent->id;
                     $status = $intent->status;
                 }
