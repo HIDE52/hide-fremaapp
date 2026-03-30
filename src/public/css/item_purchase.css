@@ -1,79 +1,137 @@
-/* --- レイアウト共通設定の調整 --- */
 .purchase__container {
-    max-width: 900px;
-    /* 【重要】全体の幅を少し絞り、情報が散らばらないようにします */
+    max-width: 1200px;
     margin: 40px auto;
     padding: 0 20px;
 }
 
-.purchase__content {
+.purchase__form {
     display: flex;
-    gap: 30px;
+    gap: 60px;
     align-items: flex-start;
 }
 
-/* --- 左側：メインカラムの幅調整 --- */
-.purchase__main-column {
-    flex: 0 1 60%;
-    /* 【重要】左側のコンテンツが広がりすぎないようにします（幅の60%） */
-}
-
-/* --- 商品カードと画像の調整 --- */
-.purchase__item-card {
-    display: flex;
-    gap: 20px;
-    align-items: center;
-    /* 上下中央に配置 */
-}
-
-.purchase__item-image {
-    flex: 0 0 180px;
-    /* 【重要】画像の枠を180pxで固定します */
-    width: 180px;
-    height: 180px;
-    background: #f0f0f0;
-    overflow: hidden;
-    /* 枠からはみ出した画像を隠す */
-    border-radius: 4px;
-    /* 少し角を丸く */
-}
-
-.purchase__item-image img {
-    width: 10%;
-    height: 10%;
-    object-fit: cover;
-    /* 【重要】画像が枠いっぱいに綺麗に収まるようにします */
-}
-
-.purchase__item-detail {
+.purchase__main {
     flex: 1;
-    /* 残りのスペースを全て使います */
 }
 
-/* --- 各セクションの余白調整 --- */
-.purchase__section {
-    padding-bottom: 20px;
-    margin-bottom: 20px;
+.is-bordered {
+    border-bottom: 1px solid #333;
+    padding-bottom: 30px;
+    margin-bottom: 30px;
 }
 
-.purchase__section-title {
-    font-size: 16px;
-    /* 文字サイズを少し調整 */
+.item-summary {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.item-summary__image img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+}
+
+.item-summary__name {
+    font-size: 24px;
     margin-bottom: 10px;
 }
 
-/* --- 右側：サイドカラムの固定 --- */
-.purchase__side-column {
-    flex: 0 0 300px;
-    /* 【重要】右側の確認エリアを300pxで固定します */
-    width: 300px;
-    position: sticky;
-    /* スクロールしてもついてくるように（便利！） */
-    top: 20px;
+.purchase__label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 15px;
 }
 
-.purchase__submit-btn {
+.purchase__select-wrapper,
+.purchase__address-wrapper,
+.purchase__card-wrapper {
+    margin-left: 30px;
+}
+
+.purchase__select {
+    width: 50%;
+    padding: 12px 40px 12px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #fff;
+    color: #333;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 14px;
+}
+
+.purchase__select option {
+    background-color: #333;
+    color: #fff;
+}
+
+.purchase__address-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.purchase__link {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.purchase__address {
+    line-height: 1.6;
+}
+
+.purchase__sidebar {
+    width: 300px;
+}
+
+.sidebar__summary-container {
+    border: 1px solid #333;
+    margin-bottom: 30px;
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 25px 20px;
+}
+
+.is-bordered-bottom {
+    border-bottom: 1px solid #333;
+}
+
+.summary-item__label,
+.summary-item__value {
+    font-weight: bold;
+}
+
+.purchase__btn {
     width: 100%;
+    padding: 15px;
+    background-color: #ff5a5f;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.form__error {
+    color: #ff4b4b;
+    font-size: 14px;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.stripe-input {
     padding: 12px;
-    /* 少しスリムに */
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }

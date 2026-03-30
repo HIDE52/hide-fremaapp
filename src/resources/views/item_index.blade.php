@@ -6,7 +6,6 @@
 
 @section('content')
 <div class="item-index">
-    {{-- 追加ポイント：出品完了などのフラッシュメッセージを表示するエリア --}}
     @if (session('message'))
     <div class="item-index__flash">
         {{ session('message') }}
@@ -30,12 +29,17 @@
         <div class="item-card">
             <a href="{{ route('item.show', ['item_id' => $item->id]) }}" class="item-card__link">
                 <div class="item-card__img-wrapper">
+                    {{-- 画像パスの判定 --}}
                     @if (\Illuminate\Support\Str::startsWith($item->img_url, 'http'))
+                    {{-- ダミーデータ（外部URL）の場合 --}}
                     <img src="{{ $item->img_url }}" alt="{{ $item->name }}" class="item-card__img">
                     @else
-                    <img src="{{ asset($item->img_url) }}" alt="{{ $item->name }}" class="item-card__img">
+                    {{-- 自分でアップロードした（ストレージ保存）の場合 --}}
+                    {{-- asset('storage/' . パス) で正しいURLを生成します --}}
+                    <img src="{{ asset('storage/' . $item->img_url) }}" alt="{{ $item->name }}" class="item-card__img">
                     @endif
 
+                    {{-- Soldラベルの表示 --}}
                     @if ($item->order)
                     <div class="item-card__sold-label">Sold</div>
                     @endif

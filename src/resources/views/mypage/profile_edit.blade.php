@@ -47,7 +47,7 @@
                 <input type="text" name="postcode" class="profile-form__input"
                     value="{{ old('postcode', $user->postcode) }}"
                     autocomplete="off"> {{-- ← これが重要！ブラウザへの禁止命令です --}}
-                @error('post_code')
+                @error('postcode')
                 <p class="error-message">{{ $message }}</p>
                 @enderror
             </div>

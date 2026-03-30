@@ -42,18 +42,14 @@ class ItemController extends Controller
         return view('item_sell', compact('categories'));
     }
 
-    public function store(ExhibitionRequest $request) // Request から ExhibitionRequest に変更
+    public function store(ExhibitionRequest $request)
     {
-        // 1. バリデーションは ExhibitionRequest が自動でやってくれるので、ここは不要になります
+        $img_url = null;
 
-        // // 2. 画像の保存（安全な書き方）
-        // $img_url = null; // 初期値
-        // if ($request->hasFile('img_url')) {
-        //     $img_path = $request->file('img_url')->store('items', 'public');
-        //     $img_url = 'storage/' . $img_path;
-        // }
-        $img_url = 'storage/items/test.png'; // テスト用のダミーパス
-        // 3. データベースへの登録
+        if ($request->hasFile('img_url')) {
+            $img_url = $request->file('img_url')->store('items', 'public');
+        }
+
         $item = Item::create([
             'user_id'     => Auth::id(),
             'condition'   => $request->condition,
@@ -61,7 +57,7 @@ class ItemController extends Controller
             'brand_name'  => $request->brand_name,
             'description' => $request->description,
             'price'       => $request->price,
-            'img_url'     => $img_url, // 画像がなければ null が入る（DBが許可していれば）
+            'img_url'     => $img_url,
         ]);
 
         $item->categories()->attach($request->categories);

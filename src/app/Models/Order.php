@@ -21,17 +21,11 @@ class Order extends Model
         'status',
     ];
 
-    /**
-     * この注文をしたユーザーを取得（多対1）
-     */
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * この注文の対象となった商品を取得（多対1）
-     */
     public function item()
     {
         return $this->belongsTo(Item::class);

@@ -39,7 +39,7 @@
         <div class="item-card">
             <a href="{{ route('item.show', ['item_id' => $item->id]) }}" class="item-card__link">
                 <div class="item-card__img-wrapper">
-                    <img src="{{ \Illuminate\Support\Str::startsWith($item->img_url, ['http://', 'https://']) ? $item->img_url : asset($item->img_url) }}" alt="{{ $item->name }}" class="item-card__img">
+                    <img src="{{ \Illuminate\Support\Str::startsWith($item->img_url, ['http://', 'https://']) ? $item->img_url : asset('storage/' . $item->img_url) }}" alt="{{ $item->name }}" class="item-card__img">
                     @if($item->order)
                     <span class="item-card__sold">Sold</span>
                     @endif

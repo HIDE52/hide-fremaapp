@@ -9,7 +9,7 @@
 
     <div class="item-detail__image-box">
         <div class="item-detail__image-inner">
-            <img src="{{ Str::startsWith($item->img_url, 'http') ? $item->img_url : asset($item->img_url) }}"
+            <img src="{{ Str::startsWith($item->img_url, 'http') ? $item->img_url : asset('storage/' . $item->img_url) }}"
                 alt="{{ $item->name }}"
                 class="item-detail__image">
         </div>

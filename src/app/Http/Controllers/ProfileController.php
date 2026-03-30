@@ -31,9 +31,8 @@ class ProfileController extends Controller
 
         $user->update($form);
 
-        return redirect()->route('profile.edit')->with('success', 'プロフィールを更新しました');
+        return redirect()->back()->with('message', 'プロフィールを更新しました');
     }
-
     public function address_edit($item_id)
     {
         $user = Auth::user();
