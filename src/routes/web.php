@@ -12,6 +12,8 @@ Route::get('/', [ItemController::class, 'index'])->name('item.index');
 Route::get('/item/{item_id}', [ItemController::class, 'show'])->name('item.show');
 
 Route::middleware('auth')->group(function () {
+    Route::get('/home', [UserController::class, 'redirectAfterLogin'])->name('home');
+
     Route::get('/sell', [ItemController::class, 'create'])->name('item.create');
     Route::post('/sell', [ItemController::class, 'store'])->name('item.store');
 
@@ -23,7 +25,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/purchase/{item_id}', [OrderController::class, 'buy'])->name('item.buy');
 
     Route::get('/purchase/address/{item_id}', [OrderController::class, 'address_edit'])->name('address.edit');
-    Route::patch('/purchase/address/{item_id}', [OrderController::class, 'address_update'])->name('address.update');
+    Route::post('/purchase/address/{item_id}', [OrderController::class, 'address_update'])->name('address.update');
 
     Route::post('/item/{item_id}/like', [LikeController::class, 'store'])->name('like.store');
     Route::post('/item/{item_id}/comment', [CommentController::class, 'store'])->name('comment.store');

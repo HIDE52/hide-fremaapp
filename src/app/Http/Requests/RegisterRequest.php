@@ -26,21 +26,18 @@ class RegisterRequest extends FormRequest
     {
         return [
             'name'     => ['required', 'string', 'max:20'],
-            // 'unique:users' を追加することで、テーブル内での重複をチェックします
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ];
     }
 
-    /**
-     * ③ エラーメッセージのカスタマイズ
-     */
     public function messages()
     {
         return [
             'name.required'     => 'お名前を入力してください',
             'email.required'    => 'メールアドレスを入力してください',
             'email.email'       => 'メールアドレスはメール形式で入力してください',
+            'email.unique'       => '指定したメールアドレスは既に使用されています',
             'password.required' => 'パスワードを入力してください',
             'password.min'      => 'パスワードは8文字以上で入力してください',
             'password.confirmed' => 'パスワードと一致しません',

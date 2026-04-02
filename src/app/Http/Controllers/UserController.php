@@ -10,18 +10,30 @@ use App\Models\Order;
 
 class UserController extends Controller
 {
+    public function redirectAfterLogin()
+    {
+        $user = Auth::user();
+
+        if (!$user->isProfileComplete()) {
+            return redirect()->route('profile.edit');
+        }
+
+        return redirect()->route('item.index');
+    }
+
     public function index(Request $request)
     {
         $user = Auth::user();
-        $tab = $request->query('tab', 'sell');
 
-        if ($tab === 'buy') {
+        $page = $request->query('page', 'sell');
+
+        if ($page === 'buy') {
             $items = $user->orderedItems;
         } else {
             $items = $user->items;
         }
 
-        return view('mypage.profile', compact('user', 'tab', 'items'));
+        return view('mypage.profile', compact('user', 'page', 'items'));
     }
 
     public function purchase(Request $request, $item_id)

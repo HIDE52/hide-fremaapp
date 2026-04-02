@@ -46,8 +46,13 @@ class User extends Authenticatable
         return $this->belongsToMany(Item::class, 'orders');
     }
 
-    public function likeItems()
+    public function likes()
     {
-        return $this->belongsToMany(Item::class, 'likes');
+        return $this->belongsToMany(Item::class, 'likes')->withTimestamps();
+    }
+
+    public function isProfileComplete()
+    {
+        return !empty($this->postcode) && !empty($this->address);
     }
 }

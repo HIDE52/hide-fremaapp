@@ -88,10 +88,7 @@
 
 <script src="https://js.stripe.com/v3/"></script>
 <script>
-    // item_purchase.blade.php の 101行目付近
-    // 修正前：const stripe = Stripe("{{ env('STRIPE_PUBLIC_KEY') }}");
-    // 修正後：
-    const stripe = Stripe("{{ config('services.stripe.key') }}");
+    const stripe = Stripe("{{ config('services.stripe.key') }}"); 
     const elements = stripe.elements();
     const card = elements.create('card', {
         hidePostalCode: true
@@ -108,13 +105,10 @@
 
         if (paymentSelect.value === 'card') {
             cardFormContainer.style.display = 'block';
-            // すでにマウントされているかチェックしてからマウントする
-            if (!document.getElementById('card-element').hasChildNodes()) {
-                card.mount('#card-element');
-            }
+            card.mount('#card-element');
         } else {
             cardFormContainer.style.display = 'none';
-            // unmount() はせず、非表示にするだけに留めるのがスムーズです
+            card.unmount();
         }
     }
 
@@ -123,32 +117,36 @@
 
     const form = document.getElementById('payment-form');
     form.addEventListener('submit', async (event) => {
+        if (paymentSelect.value !== 'card') {
+            return;
+        }
+
+        event.preventDefault();
         if (btn.disabled) return;
-        if (paymentSelect.value === 'card') {
-            event.preventDefault();
-            btn.disabled = true;
-            btn.textContent = '処理中...';
-            try {
-                const {
-                    token,
-                    error
-                } = await stripe.createToken(card);
-                if (error) {
-                    document.getElementById('card-errors').textContent = error.message;
-                    btn.disabled = false;
-                    btn.textContent = '購入する';
-                } else {
-                    const hiddenInput = document.createElement('input');
-                    hiddenInput.type = 'hidden';
-                    hiddenInput.name = 'stripeToken';
-                    hiddenInput.value = token.id;
-                    form.appendChild(hiddenInput);
-                    form.submit();
-                }
-            } catch (e) {
+
+        btn.disabled = true;
+        btn.textContent = '処理中...';
+
+        try {
+            const {
+                token,
+                error
+            } = await stripe.createToken(card);
+            if (error) {
+                document.getElementById('card-errors').textContent = error.message;
                 btn.disabled = false;
                 btn.textContent = '購入する';
+            } else {
+                const hiddenInput = document.createElement('input');
+                hiddenInput.type = 'hidden';
+                hiddenInput.name = 'stripeToken';
+                hiddenInput.value = token.id;
+                form.appendChild(hiddenInput);
+                form.submit();
             }
+        } catch (e) {
+            btn.disabled = false;
+            btn.textContent = '購入する';
         }
     });
 </script>

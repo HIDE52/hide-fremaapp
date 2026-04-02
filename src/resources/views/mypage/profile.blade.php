@@ -23,16 +23,17 @@
         </div>
     </div>
 
-    <div class="profile-tabs">
-        <a href="{{ route('mypage', ['tab' => 'sell']) }}"
-            class="profile-tabs__tab {{ $tab === 'sell' ? 'profile-tabs__tab--active' : '' }}">
-            出品した商品
-        </a>
-        <a href="{{ route('mypage', ['tab' => 'buy']) }}"
-            class="profile-tabs__tab {{ $tab === 'buy' ? 'profile-tabs__tab--active' : '' }}">
-            購入した商品
-        </a>
-    </div>
+ <div class="profile-tabs">
+    <a href="{{ route('mypage', ['page' => 'sell']) }}"
+        class="profile-tabs__tab {{ $page === 'sell' ? 'profile-tabs__tab--active' : '' }}">
+        出品した商品
+    </a>
+
+    <a href="{{ route('mypage', ['page' => 'buy']) }}"
+        class="profile-tabs__tab {{ $page === 'buy' ? 'profile-tabs__tab--active' : '' }}">
+        購入した商品
+    </a>
+</div>
 
     <div class="item-index__list">
         @forelse ($items as $item)

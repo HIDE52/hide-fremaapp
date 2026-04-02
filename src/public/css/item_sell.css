@@ -1,137 +1,223 @@
-.purchase__container {
+/* =========================================
+   全体・共通設定
+   ========================================= */
+.main__container {
     max-width: 1200px;
-    margin: 40px auto;
-    padding: 0 20px;
+    margin: 0 auto;
+    padding: 40px 20px;
 }
 
-.purchase__form {
-    display: flex;
-    gap: 60px;
-    align-items: flex-start;
+.exhibit__title {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 40px;
 }
 
-.purchase__main {
-    flex: 1;
+.exhibit__section {
+    margin-bottom: 50px;
 }
 
-.is-bordered {
-    border-bottom: 1px solid #333;
-    padding-bottom: 30px;
+/* 5番: 区切り線 */
+.exhibit__section.is-bordered {
+    border-top: 1px solid #ddd;
+    padding-top: 30px;
+}
+
+.exhibit__section-title {
+    font-size: 18px;
+    margin-bottom: 25px;
+    font-weight: bold;
+}
+
+/* =========================================
+   入力パーツ共通 (10, 11番)
+   ========================================= */
+.exhibit__group {
     margin-bottom: 30px;
 }
 
-.item-summary {
-    display: flex;
-    gap: 30px;
-    margin-bottom: 30px;
-}
-
-.item-summary__image img {
-    width: 150px;
-    height: 150px;
-    object-fit: cover;
-}
-
-.item-summary__name {
-    font-size: 24px;
+.exhibit__label {
+    display: block;
+    font-weight: bold;
     margin-bottom: 10px;
 }
 
-.purchase__label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 15px;
-}
-
-.purchase__select-wrapper,
-.purchase__address-wrapper,
-.purchase__card-wrapper {
-    margin-left: 20px;
-}
-
-.purchase__select {
-    width: 60%;
-    padding: 12px 40px 12px 12px;
+/* 商品名、説明、セレクトボックスに適用される共通スタイル */
+.exhibit__input,
+.exhibit__textarea,
+.exhibit__select {
+    width: 100%;
+    padding: 12px;
     border: 1px solid #ccc;
+    /* 他の入力欄にある枠線 */
     border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+.exhibit__textarea {
+    height: 150px;
+    resize: none;
+}
+
+/* =========================================
+   カテゴリー (1行6個並び) (6, 7番)
+   ========================================= */
+.exhibit__category-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.exhibit__category-item {
+    flex: 0 0 calc(16.66% - 8px);
+    min-width: fit-content;
+}
+
+.exhibit__category-item input {
+    display: none;
+}
+
+.exhibit__category-label {
+    display: block;
+    width: 100%;
+    padding: 6px 0;
+    border: 1px solid #ff4b4b;
+    color: #ff4b4b;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 12px;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.exhibit__category-item input:checked+.exhibit__category-label {
+    background-color: #ff4b4b;
+    color: #fff;
+}
+
+/* =========================================
+   セレクトボックス (Figma再現) (9番)
+   ========================================= */
+.exhibit__select {
+    width: 100%;
+    padding: 12px 40px 12px 12px;
+    /* 矢印分のpaddingを確保 */
     cursor: pointer;
     background-color: #fff;
-    color: #333;
+
+    /* 標準矢印を消す */
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>');
+
+    /* カスタム矢印(SVG) */
+    background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>');
     background-repeat: no-repeat;
     background-position: right 15px center;
     background-size: 14px;
 }
 
-.purchase__select option {
-    background-color: #333;
+/* プルダウン選択肢の色 (グレー背景・白文字) */
+.exhibit__select option {
+    background-color: #666;
     color: #fff;
 }
 
-.purchase__address-header {
+/* =========================================
+   【重要修正】販売価格 (12, 13, 14番)
+   ========================================= */
+
+/* 12番: 価格コンテナ
+   以前はここに下線（border-bottom）をつけていましたが、削除します。 */
+.exhibit__price-container {
+    margin-top: 10px;
+}
+
+/* 12番: ¥マークと入力欄を包む共通の枠 */
+.exhibit__price-input-flex {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-bottom: 15px;
-}
-
-.purchase__link {
-    color: #007bff;
-    text-decoration: none;
-}
-
-.purchase__address {
-    line-height: 1.6;
-}
-
-.purchase__sidebar {
-    width: 300px;
-}
-
-.sidebar__summary-container {
-    border: 1px solid #333;
-    margin-bottom: 30px;
-}
-
-.summary-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 25px 20px;
-}
-
-.is-bordered-bottom {
-    border-bottom: 1px solid #333;
-}
-
-.summary-item__label,
-.summary-item__value {
-    font-weight: bold;
-}
-
-.purchase__btn {
     width: 100%;
-    padding: 15px;
-    background-color: #ff5a5f;
-    color: white;
-    border: none;
+    padding: 0 12px;
+    border: 1px solid #ccc;
+    /* 四角い枠線 */
     border-radius: 4px;
+    box-sizing: border-box;
+}
+
+/* 13番: 通貨記号（¥）を枠内の左に固定 */
+.exhibit__price-symbol {
+    font-size: 16px;
     font-weight: bold;
-    font-size: 18px;
+    color: #333;
+    margin-right: 8px;
+    /* ￥と数字の間のわずかな隙間 */
+    user-select: none;
+    /* 記号を選択できないようにして入力ミスを防ぐ */
+}
+
+/* 14番: 入力欄本体 */
+.exhibit__price-input {
+    flex-grow: 1;
+    border: none;
+    /* 枠線は親(flex)にあるので消す */
+    outline: none;
+    padding: 12px 0;
+    font-size: 16px;
+    background: transparent;
+}
+
+//* 【ご質問の箇所】ブラウザ独自の矢印を消す設定 */
+.exhibit__price-input::-webkit-outer-spin-button,
+.exhibit__price-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    /* Chrome, Edge, Safari用 */
+    margin: 0;
+}
+
+.exhibit__price-input[type='number'] {
+    -moz-appearance: textfield;
+}
+
+/* =========================================
+   画像・ボタン・エラー
+   ========================================= */
+.exhibit__img-box {
+    border: 2px dashed #ccc;
+    /* 3番: 画像エリア */
+    padding: 40px;
+    text-align: center;
+    background-color: #f9f9f9;
+}
+
+.exhibit__img-btn {
+    display: inline-block;
+    /* 4番: 選択ボタン */
+    padding: 10px 25px;
+    border: 1px solid #ff4b4b;
+    color: #ff4b4b;
+    border-radius: 4px;
     cursor: pointer;
 }
 
-.form__error {
-    color: #ff4b4b;
-    font-size: 14px;
-    margin-top: 10px;
+.exhibit__submit {
+    width: 100%;
+    /* 15番: 出品ボタン */
+    padding: 15px;
+    background-color: #ff4b4b;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 18px;
     font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
 }
 
-.stripe-input {
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+/* 共通エラーメッセージ */
+.exhibit__error {
+    color: #ff4b4b;
+    font-size: 14px;
+    margin-top: 5px;
 }

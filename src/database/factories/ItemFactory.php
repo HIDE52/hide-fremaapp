@@ -18,7 +18,7 @@ class ItemFactory extends Factory
             'name' => 'テスト商品',
             'description' => 'テスト説明文',
             'price' => 1000,
-            'condition' => '良好',
+            'condition' => $this->faker->numberBetween(1, 4), // これで「1〜4」のどれかが入る
             'img_url' => 'test.jpg',
         ];
     }

@@ -24,8 +24,8 @@ class PurchaseRequest extends FormRequest
     {
         return [
             'payment_method.required' => '支払い方法を選択してください',
-            'address.required' => '配送先住所が登録または入力されていません',
-            'postcode.required' => '郵便番号が登録または入力されていません',
+            'address.required'        => '配送先が選択されていません。プロフィール登録または住所変更を行ってください',
+            'postcode.required'       => '郵便番号が登録されていません',
         ];
     }
 }

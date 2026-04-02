@@ -19,7 +19,7 @@ class ItemController extends Controller
         $query = Item::with('order')->keywordSearch($keyword);
 
         if ($tab === 'mylist') {
-            $items = $user ? $user->likeItems()->with('order')->keywordSearch($keyword)->get() : collect();
+            $items = $user ? $user->likes()->with('order')->keywordSearch($keyword)->get() : collect();
         } else {
             if ($user) {
                 $query->where('user_id', '!=', $user->id);

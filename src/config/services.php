@@ -31,7 +31,7 @@ return [
     ],
 
     'stripe' => [
-        'key' => env('STRIPE_PUBLIC_KEY'), // .env の公開キーの名前に合わせる
-        'secret' => env('STRIPE_SECRET_KEY'), // .env のシークレットキーの名前に合わせる
+        'key' => env('STRIPE_PUBLIC_KEY'),
+        'secret' => env('STRIPE_SECRET_KEY'),
     ],
 ];

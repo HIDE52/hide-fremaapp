@@ -101,7 +101,43 @@ PHPコンテナ上
 
 php artisan db:seed
 ```
-４
+
+
+4⃣ テストの実行手順
+
+本アプリケーションでは PHPUnit を使用して自動テストを実施しています。
+テストを実行する前に、以下の手順でテスト用データベースの準備を行ってください。
+
+① テスト用データベースの作成
+
+・MySQコンテナ内に移動します。
+
+```
+コマンドライン上
+
+docker-compose exec mysql bash
+```
+
+・新規でデータベースを作成する際は、権限の問題でrootユーザ（管理者)でログインす る必要があります。
+```
+MySQL上コンテナ上
+
+mysql -u root -p
+```
+・パスワードは、docker-compose.ymlファイルのMYSQL_ROOT_PASSWORD:に設定されているrootを入力します。
+
+
+・MySQLログイン後、demo_testの作成を行います。
+```
+MySQL上コンテナ上
+
+CREATE DATABASE demo_test;
+SHOW DATABASES;
+```
+
+
+
+
 
 ## 使用技術(実行環境)
 
@@ -112,11 +148,11 @@ php artisan db:seed
 
 ## URL
 
-商品一覧トップ画面：http://localhost/
-ユーザー登録：http://localhost/register
-ログイン：http://localhost/login
-phpMyAdmin (DB確認ツール)：http://localhost:8080/
-メール確認 (Mailhog):http://localhost:8025/
+商品一覧トップ画面：http://localhost/<br/>
+ユーザー登録：http://localhost/register<br/>
+ログイン：http://localhost/login<br/>
+phpMyAdmin (DB確認ツール)：http://localhost:8080/<br/>
+メール確認 (Mailhog):http://localhost:8025/<br/>
 
 ## ER図
 

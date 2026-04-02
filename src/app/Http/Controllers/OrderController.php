@@ -23,8 +23,9 @@ class OrderController extends Controller
 
     public function address_edit($item_id)
     {
+        $item = Item::findOrFail($item_id);
         $user = Auth::user();
-        return view('mypage.address_edit', compact('user', 'item_id'));
+        return view('address_edit', compact('user', 'item_id'));
     }
 
     public function address_update(AddressRequest $request, $item_id)
@@ -69,7 +70,7 @@ class OrderController extends Controller
                         'description' => '商品購入: ' . $item->name,
                         'off_session' => true,
                     ]);
-                    
+
                     $stripe_id = $intent->id;
                     $status = $intent->status;
                 }
