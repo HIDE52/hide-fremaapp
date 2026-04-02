@@ -10,7 +10,7 @@ use App\Models\Category;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
-class ProfileTest extends TestCase
+class ItemSellTest extends TestCase
 {
     use RefreshDatabase;
 
