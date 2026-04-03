@@ -4,9 +4,9 @@ coachtechフリマ
 
 ## 環境構築
 
-1⃣　Dockerビルド
+1⃣ Dockerビルド
 
-① アプリケーションを作成するために、開発環境を GitHub からクローンします。
+⓵ アプリケーションを作成するために、開発環境を GitHub からクローンします。
 
 ```
 コマンドライン上
@@ -15,7 +15,7 @@ git clone git@github.com:HIDE52/hide-fremaapp.git
 mv hide-fremaapp coachtechフリマ
 ```
 
-② 開発環境を構築します。
+⓶ 開発環境を構築します。
 
 ```
 コマンドライン上
@@ -25,11 +25,12 @@ docker-compose up -d --build
 code .
 ```
 
-③「Docker Desktop 」の確認を行い、「coachtechフリマ」コンテナが作成されているか確認を行います。
+⓷「Docker Desktop 」の確認を行い、「coachtechフリマ」コンテナが作成されているか確認を行います。
 
-2⃣　Laravelの初期設定
 
-① Dockerコンテナ内に移動します。
+2⃣ Laravelの初期設定
+
+⓵ Dockerコンテナ内に移動します。
 
 ```
 コマンドライン上
@@ -37,7 +38,7 @@ code .
 docker-compose exec php bash
 ```
 
-② 必要なパッケージをインストールします。
+⓶ 必要なパッケージをインストールします。
 
 ```
 PHPコンテナ上
@@ -45,7 +46,7 @@ PHPコンテナ上
 composer install
 ```
 
-③ 設定ファイル（.env）を作成し、データベースの接続先を書き換えます。
+⓷ 設定ファイル（.env）を作成し、データベースの接続先を書き換えます。
 
 ```
 PHPコンテナ上
@@ -53,7 +54,7 @@ PHPコンテナ上
 cp .env.example .env
 ```
 
-.env ファイルを開き、以下の項目をdocker-compose.yml の設定に合わせて 書き換えて保存してください
+⓸ .env ファイルを開き、以下の項目をdocker-compose.yml の設定に合わせて 書き換えて保存してください
 
 ```
 .envファイル
@@ -66,7 +67,7 @@ DB_USERNAME=laravel_user
 DB_PASSWORD=laravel_pass
 ```
 
-④ セキュリティに必要な「鍵」を作ります。
+⓹ セキュリティに必要な「鍵」を作ります。
 
 ```
 PHPコンテナ上
@@ -74,7 +75,7 @@ PHPコンテナ上
 php artisan key:generate
 ```
 
-⑤ 画像を表示させるために実行します。
+⓺ 画像を表示させるために実行します。
 
 ```
 PHPコンテナ上
@@ -86,7 +87,7 @@ php artisan storage:link
 
 3⃣ データベースの構築
 
-⑥ データベースにテーブルを作成します。
+⓵ データベースにテーブルを作成します。
 
 ```
 PHPコンテナ上
@@ -94,7 +95,7 @@ PHPコンテナ上
 php artisan migrate
 ```
 
-⑦ 初期データ（テストデータ）を登録します。
+⓶ 初期データ（テストデータ）を登録します。
 
 ```
 PHPコンテナ上
@@ -102,44 +103,48 @@ PHPコンテナ上
 php artisan db:seed
 ```
 
+初期アカウント情報
+動作確認用に以下のテストユーザーが登録されます。
+```
+・メールアドレス: test@example.com
+・パスワード: password
+```
 
-4⃣ テスト環境の構築
+4⃣  テスト環境の構築
 
 本アプリケーションでは PHPUnit を使用して自動テストを実施しています。
-テストを実行する前に、以下の手順でテスト用データベースの準備を行ってください。
 
-⓵ テスト用データベースの作成
+⓵  テスト用データベースの作成
 
-1.MySQコンテナ内に移動します。
-
-  ```
-  コマンドライン上
-
-  docker-compose exec mysql bash
-  ```
-
-･新規でデータベースを作成する際は、権限の問題でrootユーザ（管理者)でログインす る必要があります。
+1. MySQコンテナ内に移動します。
 
 ```
-MySQL上コンテナ上
+コマンドライン上
+
+docker-compose exec mysql bash
+```
+
+2. rootユーザ（管理者)でログインします。
+
+```
+MySQL上コンテナ上します
 
 mysql -u root -p
+パスワードは'root'を入力します。
 ```
-･パスワードは、docker-compose.ymlファイルのMYSQL_ROOT_PASSWORD:に設定されているrootを入力します。
 
-
-･MySQLログイン後、demo_testの作成を行います。
+3. MySQLログイン後、demo_testの作成を行います。
 
 ```
-MySQL上コンテナ上
+MySQLコンテナ上
 
 CREATE DATABASE demo_test;
 SHOW DATABASES;
 ```
 
-② テスト環境の設定
+⓶ テスト環境の設定
 
-･configディレクトリの中のdatabase.phpを開き、以下を参考に変更をしてください。
+1. configディレクトリの中のdatabase.phpの編集をします。
 
 ```
 database.php
@@ -169,9 +174,9 @@ database.php
 + ],
 ```
 
-③テスト用の.envファイル作成
+⓷ テスト用の.envファイル作成
 
-･PHPコンテナにログインし、.envをコピーして.env.testingを作成します。
+1. ･PHPコンテナにログインし、.envをコピーして.env.testingを作成します。
 
 ```
 PHPコンテナ上
@@ -179,21 +184,21 @@ PHPコンテナ上
 cp .env .env.testing
 ```
 
-･ファイルの作成ができたたら、.env.testingファイルの文頭部分にあるAPP_ENVとAPP_KEYを編集します。
+2. .env.testingの文頭部分のAPP_ENVとAPP_KEYを編集します。
 
 ```
 .env.testing
 
-APP_NAME=Laravel
+  APP_NAME=Laravel
 - APP_ENV=local
 - APP_KEY=base64:vPtYQu63T1fmcyeBgEPd0fJ+jvmnzjYMaUf7d5iuB+c=
 + APP_ENV=test
 + APP_KEY=
-APP_DEBUG=true
-APP_URL=http://localhost
+  APP_DEBUG=true
+  APP_URL=http://localhost
 ```
 
-･.env.testingにデータベースの接続情報を加えます。
+3. .env.testingにデータベースの接続情報を加えます。
 
 ```
 .env.testing
@@ -209,7 +214,7 @@ APP_URL=http://localhost
 + DB_PASSWORD=root
 ```
 
-･APP_KEYに新たなテスト用のアプリケーションキーを加えるます。
+4. APP_KEYに新たなテスト用のアプリケーションキーを加えます。
 
 ```
 PHPコンテナ上
@@ -217,7 +222,7 @@ PHPコンテナ上
 php artisan key:generate --env=testing
 ```
 
-･キャッシュの削除を行い、反映をしやすいようにします。
+5. 反映をしやすいようにキャッシュの削除を行います。
 
 ```
 PHPコンテナ上
@@ -225,7 +230,7 @@ PHPコンテナ上
 php artisan config:clear
 ```
 
-･マイグレーションコマンドを実行して、テスト用のテーブルを作成します。
+6. マイグレーションコマンドを実行して、テスト用のテーブルを作成します。
 
 ```
 PHPコンテナ上
@@ -234,10 +239,10 @@ php artisan migrate --env=testing
 ```
 
 
-5⃣テストコマンドの実施準備
-④phpunitの編集
+⓸ phpunitの編集
 
-･テスト用のデータベースで、テストを実行するには、phpunit.xmlの編集を行います。
+
+1. phpunit.xmlの<php>セクションの編集を行います。
 
 ```
 phpunit.xml
@@ -246,10 +251,10 @@ phpunit.xml
         <server name="APP_ENV" value="testing"/>
         <server name="BCRYPT_ROUNDS" value="4"/>
         <server name="CACHE_DRIVER" value="array"/>
--         <!-- <server name="DB_CONNECTION" value="sqlite"/> -->
--         <!-- <server name="DB_DATABASE" value=":memory:"/> -->
-+         <server name="DB_CONNECTION" value="mysql_test"/>
-+         <server name="DB_DATABASE" value="demo_test"/>
+      - <!-- <server name="DB_CONNECTION" value="sqlite"/> -->
+      - <!-- <server name="DB_DATABASE" value=":memory:"/> -->
+      + <server name="DB_CONNECTION" value="mysql_test"/>
+      + <server name="DB_DATABASE" value="demo_test"/>
         <server name="MAIL_MAILER" value="array"/>
         <server name="QUEUE_CONNECTION" value="sync"/>
         <server name="SESSION_DRIVER" value="array"/>
@@ -257,14 +262,44 @@ phpunit.xml
     </php>
 ```
 
-･テスト用のデータベースでテストのコマンドを実施します。
+⓹ テストの実施
 
+1. テスト用のデータベースでテストのコマンドを実施します。
 ```
 PHPコンテナ上
 
 php artisan test
 ```
 
+5⃣ Stripe決済のテスト設定
+
+本アプリケーションの決済機能（Stripe）をテスト・動作確認を行うためには、Stripeのテスト用APIキーが必要です。ご自身のStripeアカウントから取得したキーを以下の手順で設定してください。
+
+⓵ Stripeダッシュボードにログインし,2つのテスト用キーを取得してください。
+
+```
+・公開可能キー（pk_test_ から始まる文字列）
+・シークレットキー（sk_test_ から始まる文字列）
+```
+
+⓶ .env ファイル、および .env.testing ファイルの末尾に、取得したキーを追記してください。
+
+```
+.env
+.env.testing
+
+STRIPE_KEY=ここに公開可能キーを記述
+STRIPE_SECRET=ここにシークレットキーを記述
+```
+
+⓷ 設定の反映
+設定を反映させるためにキャッシュをクリアしてください。
+
+```
+PHPコンテナ上
+
+php artisan config:clear
+```
 
 
 ## 使用技術(実行環境)
@@ -281,6 +316,7 @@ php artisan test
 ログイン：http://localhost/login<br/>
 phpMyAdmin (DB確認ツール)：http://localhost:8080/<br/>
 メール確認 (Mailhog):http://localhost:8025/<br/>
+Stripeダッシュボード:https://dashboard.stripe.com/test/apikeys
 
 ## ER図
 
