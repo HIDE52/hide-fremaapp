@@ -15,10 +15,8 @@ class CreateLikesTable extends Migration
     {
         Schema::create('likes', function (Blueprint $table) {
             $table->id();
-            // 外部キー：誰がいいねしたか            
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            // 外部キー：どの商品にいいねしたか
-            $table->foreignId('item_id')->constrained()->cascadeOnDelete();            
+            $table->foreignId('item_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

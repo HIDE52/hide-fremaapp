@@ -6,7 +6,6 @@
 
 @section('content')
 <div class="item-detail">
-
     <div class="item-detail__image-box">
         <div class="item-detail__image-inner">
             <img src="{{ Str::startsWith($item->img_url, 'http') ? $item->img_url : asset('storage/' . $item->img_url) }}"
@@ -16,7 +15,6 @@
     </div>
 
     <div class="item-detail__description-box">
-
         <div class="item-detail__header">
             <h1 class="item-detail__name">{{ $item->name }}</h1>
             <p class="item-detail__brand">{{ $item->brand_name }}</p>
@@ -86,7 +84,7 @@
                 <div class="item-detail__comment-user">
                     <div class="item-detail__comment-user-icon">
                         @if($comment->user->img_url)
-                        <img src="{{ asset($comment->user->img_url) }}" alt="" class="item-detail__comment-avatar">
+                        <img src="{{ asset('storage/' .$comment->user->img_url) }}" alt="{{ $comment->user->name }}" class="item-detail__comment-avatar">
                         @endif
                     </div>
                     <span class="item-detail__comment-user-name">{{ $comment->user->name }}</span>
@@ -98,7 +96,6 @@
             @endforeach
         </div>
 
-        @auth
         <form action="{{ route('comment.store', ['item_id' => $item->id]) }}" method="POST" class="item-detail__comment-form">
             @csrf
             <h3 class="item-detail__comment-form-title">商品へのコメント</h3>
@@ -108,7 +105,6 @@
             <textarea name="comment" class="item-detail__comment-textarea @error('comment') is-error @enderror" placeholder="コメントを入力してください">{{ old('comment') }}</textarea>
             <button type="submit" class="item-detail__comment-submit">コメントを送信する</button>
         </form>
-        @endauth
     </div>
 </div>
 @endsection

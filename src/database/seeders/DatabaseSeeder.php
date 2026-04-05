@@ -17,7 +17,6 @@ class DatabaseSeeder extends Seeder
             'name' => 'テスト太郎',
             'email' => 'test@example.com',
             'password' => \Hash::make('password'),
-            // 住所などは、以前修正した通り nullable なら空でOK
         ]);
 
         $this->call([

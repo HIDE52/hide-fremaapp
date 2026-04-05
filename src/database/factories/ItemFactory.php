@@ -14,11 +14,11 @@ class ItemFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => \App\Models\User::factory(), // 持ち主を自動生成して紐付け
+            'user_id' => \App\Models\User::factory(),
             'name' => 'テスト商品',
             'description' => 'テスト説明文',
             'price' => 1000,
-            'condition' => $this->faker->numberBetween(1, 4), // これで「1〜4」のどれかが入る
+            'condition' => $this->faker->numberBetween(1, 4),
             'img_url' => 'test.jpg',
         ];
     }

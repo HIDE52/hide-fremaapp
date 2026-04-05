@@ -16,12 +16,13 @@ class OrderFactory extends Factory
         return [
             'user_id' => User::factory(),
             'item_id' => Item::factory(),
-            'payment_method' => 'コンビニ払い',
+            'payment_method' => 'card',
             'price' => 1000,
-            // --- 以下の必須項目を追加 ---
             'postcode' => '123-4567',
             'address' => '東京都渋谷区道玄坂',
-            'building' => 'コーテックビル', // buildingはnull可かもしれませんが念のため
+            'building' => 'コーテックビル',
+            'status' => 'succeeded',
+            'stripe_id' => null,
         ];
     }
 }
