@@ -17,7 +17,9 @@
     <div class="item-detail__description-box">
         <div class="item-detail__header">
             <h1 class="item-detail__name">{{ $item->name }}</h1>
-            <p class="item-detail__brand">{{ $item->brand_name }}</p>
+            @if(!is_null($item->brand_name))
+                <p class="item-detail__brand">{{ $item->brand_name }}</p>
+            @endif
         </div>
 
         <div class="item-detail__price">

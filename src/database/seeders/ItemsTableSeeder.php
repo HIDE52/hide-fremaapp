@@ -38,7 +38,7 @@ class ItemsTableSeeder extends Seeder
             [
                 'name' => '玉ねぎ3束',
                 'price' => 300,
-                'brand_name' => null,
+                'brand_name' => 'なし',
                 'description' => '新鮮な玉ねぎ3束のセット',
                 'condition' => 'やや傷や汚れあり',
                 'img_url' => 'https://coachtech-matter.s3.ap-northeast-1.amazonaws.com/image/iLoveIMG+d.jpg'
@@ -62,7 +62,7 @@ class ItemsTableSeeder extends Seeder
             [
                 'name' => 'マイク',
                 'price' => 8000,
-                'brand_name' => null,
+                'brand_name' => 'なし',
                 'description' => '高音質のレコーディング用マイク',
                 'condition' => '目立った傷や汚れなし',
                 'img_url' => 'https://coachtech-matter.s3.ap-northeast-1.amazonaws.com/image/Music+Mic+4632231.jpg'
@@ -78,7 +78,7 @@ class ItemsTableSeeder extends Seeder
             [
                 'name' => 'タンブラー',
                 'price' => 500,
-                'brand_name' => null,
+                'brand_name' => 'なし',
                 'description' => '使いやすいタンブラー',
                 'condition' => '状態が悪い',
                 'img_url' => 'https://coachtech-matter.s3.ap-northeast-1.amazonaws.com/image/Tumbler+souvenir.jpg'
