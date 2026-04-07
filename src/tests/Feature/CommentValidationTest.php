@@ -17,7 +17,9 @@ class CommentValidationTest extends TestCase
      */
     public function comment_validation_on_screen($value, $errorMessage)
     {
-        $user = User::factory()->create();
+        $user = User::factory()->create([
+            'email_verified_at' => now(),
+        ]);
         $item = Item::factory()->create();
 
         $response = $this->actingAs($user)

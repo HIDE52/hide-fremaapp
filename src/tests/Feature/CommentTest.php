@@ -14,7 +14,9 @@ class CommentTest extends TestCase
     /** @test */
     public function authenticated_user_can_send_comment()
     {
-        $user = User::factory()->create();
+        $user = User::factory()->create([
+            'email_verified_at' => now(),
+        ]);
         $item = Item::factory()->create();
 
         $this->actingAs($user)->post("/item/{$item->id}/comment", ['comment' => 'Hello']);

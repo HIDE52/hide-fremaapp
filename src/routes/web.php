@@ -11,7 +11,7 @@ use App\Http\Controllers\OrderController;
 Route::get('/', [ItemController::class, 'index'])->name('item.index');
 Route::get('/item/{item_id}', [ItemController::class, 'show'])->name('item.show');
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth', 'verified')->group(function () {
     Route::get('/home', [UserController::class, 'redirectAfterLogin'])->name('home');
 
     Route::get('/sell', [ItemController::class, 'create'])->name('item.create');

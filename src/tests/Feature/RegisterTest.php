@@ -4,29 +4,27 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use App\Models\User;
 
 class RegisterTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * @test
-     */
-    public function test_user_can_register_and_see_profile_setting_page()
+    public function test_registration_redirects_to_verify_notice()
     {
         $data = [
-            'name' => 'テストユーザー',
+            'name' => '成功ユーザー',
             'email' => 'success@example.com',
             'password' => 'password123',
             'password_confirmation' => 'password123',
         ];
 
-        $response = $this->followRedirects($this->post('/register', $data));
+        $response = $this->post('/register', $data);
 
         $this->assertDatabaseHas('users', ['email' => 'success@example.com']);
         $this->assertAuthenticated();
-        $this->assertEquals(url('/mypage/profile'), url()->current());
-        $response->assertStatus(200);
-        $response->assertSee('プロフィール設定');
+
+        $response->assertRedirect('/home');
+        $this->get('/home')->assertRedirect('/email/verify');
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\User;
 use App\Models\Item;
 use App\Models\Order;
@@ -13,6 +14,10 @@ class UserController extends Controller
     public function redirectAfterLogin()
     {
         $user = Auth::user();
+
+        if ($user instanceof MustVerifyEmail && ! $user->hasVerifiedEmail()) {
+            return redirect()->route('verification.notice');
+        }
 
         if (!$user->isProfileComplete()) {
             return redirect()->route('profile.edit');
@@ -24,7 +29,6 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $user = Auth::user();
-
         $page = $request->query('page', 'sell');
 
         if ($page === 'buy') {

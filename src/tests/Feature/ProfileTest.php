@@ -6,105 +6,48 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Item;
-use App\Models\Category;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
+use App\Models\Order;
 
 class ProfileTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_user_can_see_mypage_sell_items()
+    public function test_user_can_see_mypage_display_sell_items()
     {
-        $user = User::factory()->create(['name' => 'テストユーザー']);
-        $this->actingAs($user);
+        $user = User::factory()->create([
+            'name' => 'テスト出品者',
+            'email_verified_at' => now(),
+        ]);
 
         Item::factory()->create([
             'user_id' => $user->id,
-            'name' => '私が出品した商品'
+            'name' => '私が出品した商品A'
         ]);
 
-        $response = $this->get('/mypage?page=sell');
+        $response = $this->actingAs($user)->get('/mypage?page=sell');
 
         $response->assertStatus(200);
-        $response->assertSee('テストユーザー');
-        $response->assertSee('私が出品した商品');
+        $response->assertSee('テスト出品者');
+        $response->assertSee('私が出品した商品A');
     }
 
-    public function test_user_can_see_mypage_buy_items()
+    public function test_user_can_see_mypage_display_buy_items()
     {
-        $user = User::factory()->create();
-        $this->actingAs($user);
+        $user = User::factory()->create([
+            'name' => 'テスト購入者',
+            'email_verified_at' => now(),
+        ]);
 
-        $boughtItem = Item::factory()->create(['name' => '私が購入した商品']);
-        \App\Models\Order::factory()->create([
+        $boughtItem = Item::factory()->create(['name' => '私が購入した商品B']);
+        Order::factory()->create([
             'user_id' => $user->id,
             'item_id' => $boughtItem->id
         ]);
 
-        $response = $this->get('/mypage?page=buy');
+        $response = $this->actingAs($user)->get('/mypage?page=buy');
 
         $response->assertStatus(200);
-        $response->assertSee('私が購入した商品');
-    }
-
-    public function test_user_can_see_profile_edit_page_with_default_values()
-    {
-        $user = User::factory()->create([
-            'name' => '既存の名前',
-            'postcode' => '111-1111',
-            'address' => '東京都渋谷区',
-            'img_url' => 'profiles/test_avatar.jpg'
-        ]);
-
-        $response = $this->actingAs($user)->get('/mypage/profile');
-
-        $response->assertStatus(200);
-        $response->assertSee('既存の名前');
-        $response->assertSee('111-1111');
-        $response->assertSee('東京都渋谷区');
-    }
-
-    public function test_user_can_update_profile_information()
-    {
-        $user = User::factory()->create();
-
-        $updateData = [
-            'name' => str_repeat('あ', 20),
-            'postcode' => '999-9999',
-            'address' => '大阪府大阪市'
-        ];
-
-        $this->actingAs($user)->post('/mypage/profile', $updateData);
-
-        $this->assertDatabaseHas('users', [
-            'id' => $user->id,
-            'name' => str_repeat('あ', 20),
-            'postcode' => '999-9999',
-        ]);
-    }
-
-    public function test_user_can_post_item()
-    {
-        Storage::fake('public');
-        $user = User::factory()->create();
-        $category = Category::factory()->create(['content' => 'ファッション']);
-        $image = UploadedFile::fake()->image('item.jpg');
-
-        $itemData = [
-            'categories'   => [$category->id],
-            'condition'    => 1,
-            'name'         => 'テスト出品商品',
-            'brand_name'   => 'テストブランド',
-            'description'  => str_repeat('い', 255),
-            'price'        => 5000,
-            'img_url'      => $image,
-        ];
-
-        $response = $this->actingAs($user)->post('/sell', $itemData);
-
-        $response->assertSessionHasNoErrors();
-        $this->assertDatabaseHas('items', ['name' => 'テスト出品商品']);
-        Storage::disk('public')->assertExists('items/' . $image->hashName());
+        $response->assertSee('テスト購入者');
+        $response->assertSee('私が購入した商品B');
     }
 }

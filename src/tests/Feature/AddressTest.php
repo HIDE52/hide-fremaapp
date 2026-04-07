@@ -14,7 +14,10 @@ class AddressTest extends TestCase
 
     public function test_changed_address_is_shown_on_purchase_screen()
     {
-        $user = User::factory()->create(['address' => '元の住所']);
+        $user = User::factory()->create([
+            'address' => '元の住所',
+            'email_verified_at' => now(),
+        ]);
         $item = Item::factory()->create();
 
         $newAddress = '東京都世田谷区赤堤';
@@ -33,7 +36,9 @@ class AddressTest extends TestCase
         $mockIntent = (object)['id' => 'pi_test', 'status' => 'succeeded'];
         \Mockery::mock('alias:Stripe\PaymentIntent')->shouldReceive('create')->andReturn($mockIntent);
 
-        $user = User::factory()->create();
+        $user = User::factory()->create([
+            'email_verified_at' => now(),
+        ]);
         $item = Item::factory()->create();
 
         $newAddress = '東京都世田谷区赤堤';

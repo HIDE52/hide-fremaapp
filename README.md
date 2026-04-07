@@ -27,7 +27,6 @@ code .
 
 ⓷「Docker Desktop 」の確認を行い、「coachtechフリマ」コンテナが作成されているか確認を行います。
 
-
 2⃣ Laravelの初期設定
 
 ⓵ Dockerコンテナ内に移動します。
@@ -83,8 +82,6 @@ PHPコンテナ上
 php artisan storage:link
 ```
 
-
-
 3⃣ データベースの構築
 
 ⓵ データベースにテーブルを作成します。
@@ -105,16 +102,17 @@ php artisan db:seed
 
 初期アカウント情報
 動作確認用に以下のテストユーザーが登録されます。
+
 ```
 ・メールアドレス: test@example.com
 ・パスワード: password
 ```
 
-4⃣  テスト環境の構築
+4⃣ テスト環境の構築
 
 本アプリケーションでは PHPUnit を使用して自動テストを実施しています。
 
-⓵  テスト用データベースの作成
+⓵ テスト用データベースの作成
 
 1. MySQコンテナ内に移動します。
 
@@ -140,6 +138,7 @@ MySQLコンテナ上
 
 CREATE DATABASE demo_test;
 SHOW DATABASES;
+exit
 ```
 
 ⓶ テスト環境の設定
@@ -203,7 +202,8 @@ cp .env .env.testing
 ```
 .env.testing
 
-  DB_CONNECTION=mysql_test
+- DB_CONNECTION=mysql
++ DB_CONNECTION=mysql_test
   DB_HOST=mysql
   DB_PORT=3306
 - DB_DATABASE=laravel_db
@@ -238,9 +238,7 @@ PHPコンテナ上
 php artisan migrate --env=testing
 ```
 
-
 ⓸ phpunitの編集
-
 
 1. phpunit.xmlの<php>セクションの編集を行います。
 
@@ -265,6 +263,7 @@ phpunit.xml
 ⓹ テストの実施
 
 1. テスト用のデータベースでテストのコマンドを実施します。
+
 ```
 PHPコンテナ上
 
@@ -300,7 +299,6 @@ PHPコンテナ上
 
 php artisan config:clear
 ```
-
 
 ## 使用技術(実行環境)
 
