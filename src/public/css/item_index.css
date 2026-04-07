@@ -1,4 +1,3 @@
-/* --- 追加・修正：通知メッセージのスタイル --- */
 .item-index__flash {
     color: #155724;
     background-color: #d4edda;
@@ -11,10 +10,8 @@
     font-size: 16px;
     width: 100%;
     box-sizing: border-box;
-    /* 余白を含めて100%にする魔法の言葉 */
 }
 
-/* --- 以下、既存のスタイル --- */
 .item-index {
     width: 100%;
     padding-top: 40px;

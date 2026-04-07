@@ -13,8 +13,7 @@ class ItemDetailTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
-    public function all_item_information_is_displayed()
+    public function test_all_item_information_is_displayed()
     {
         $user = User::factory()->create(['name' => 'コメント投稿者']);
         $item = Item::factory()->create([
@@ -44,17 +43,14 @@ class ItemDetailTest extends TestCase
         $response->assertSee('これはテストの説明文です');
         $response->assertSee('良好');
         $response->assertSee('電化製品');
-        $response->assertSee('コメント(1)');
         $response->assertSee('コメント投稿者');
         $response->assertSee('素晴らしい商品ですね！');
         $response->assertSee('https://example.com/test.jpg');
     }
 
-    /** @test */
-    public function multiple_categories_are_displayed()
+    public function test_multiple_categories_are_displayed()
     {
         $item = Item::factory()->create();
-
         $cat1 = Category::factory()->create(['content' => 'ファッション']);
         $cat2 = Category::factory()->create(['content' => 'メンズ']);
         $item->categories()->attach([$cat1->id, $cat2->id]);

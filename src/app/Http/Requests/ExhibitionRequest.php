@@ -6,22 +6,11 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class ExhibitionRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
     public function authorize()
     {
-        // ここは必ず true にしてください
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
     public function rules()
     {
         return [
@@ -30,16 +19,13 @@ class ExhibitionRequest extends FormRequest
             'price'       => 'required|integer|min:0',
             'condition'   => 'required',
             'categories'  => 'required|array',
-            // 'required' を先頭に、その後に形式チェックを並べます
             'img_url'     => 'required|file|image|mimes:jpeg,png|max:2048',
-            // 'img_url'     => 'required',
         ];
     }
 
     public function messages()
     {
         return [
-            // ここに日本語メッセージを直接書く
             'img_url.required'     => '商品画像を選択してください',
             'img_url.image'        => '指定されたファイルが画像ではありません',
             'img_url.mimes'        => '拡張子が.jpegもしくは.pngの画像を選択してください',

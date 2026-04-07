@@ -11,8 +11,7 @@ class ItemSearchTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
-    public function can_search_items_by_name()
+    public function test_can_search_items_by_name()
     {
         Item::factory()->create(['name' => 'Apple Watch']);
         Item::factory()->create(['name' => 'Sony Headphone']);
@@ -24,8 +23,7 @@ class ItemSearchTest extends TestCase
         $response->assertDontSee('Sony Headphone');
     }
 
-    /** @test */
-    public function search_keyword_is_retained_in_mylist()
+    public function test_search_keyword_is_retained_in_mylist()
     {
         $user = User::factory()->create();
         $this->actingAs($user);
@@ -33,6 +31,7 @@ class ItemSearchTest extends TestCase
         $response = $this->get('/?tab=mylist&keyword=Apple');
 
         $response->assertStatus(200);
+
         $this->assertEquals('Apple', request('keyword'));
     }
 }

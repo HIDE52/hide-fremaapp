@@ -12,8 +12,7 @@ class LikeTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
-    public function item_can_be_liked_and_count_increases()
+    public function test_item_can_be_liked_and_count_increases()
     {
         $user = User::factory()->create(['email_verified_at' => now()]);
         $item = Item::factory()->create();
@@ -28,8 +27,7 @@ class LikeTest extends TestCase
         $this->get("/item/{$item->id}")->assertSee('1');
     }
 
-    /** @test */
-    public function liked_icon_changes_color()
+    public function test_liked_icon_changes_color()
     {
         $user = User::factory()->create(['email_verified_at' => now()]);
         $item = Item::factory()->create();
@@ -39,8 +37,7 @@ class LikeTest extends TestCase
             ->assertSee('is-liked');
     }
 
-    /** @test */
-    public function item_can_be_unliked_and_count_decreases()
+    public function test_item_can_be_unliked_and_count_decreases()
     {
         $user = User::factory()->create(['email_verified_at' => now()]);
         $item = Item::factory()->create();

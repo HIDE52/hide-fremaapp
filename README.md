@@ -24,6 +24,7 @@ cd coachtechフリマ
 docker-compose up -d --build
 code .
 ```
+※画像処理(GD)等の必要な環境が自動でインストールされます
 
 ⓷「Docker Desktop 」の確認を行い、「coachtechフリマ」コンテナが作成されているか確認を行います。
 
@@ -103,6 +104,8 @@ PHPコンテナ上
 php artisan storage:link
 
 ```
+
+⓻ 本アプリは商品画像の加工にGDライブラリを使用します。Dockerfileにて自動インストールする設定にしているため、手動でのインストール作業は不要です。
 
 3⃣ データベースの構築
 
@@ -321,21 +324,29 @@ phpunit.xml
 ```
 PHPコンテナ上
 
-php artisan test tests/Feature
+php artisan test tests
 ```
 
 5⃣ Stripe決済のテスト設定
 
 本アプリケーションの決済機能（Stripe）をテスト・動作確認を行うためには、Stripeのテスト用APIキーが必要です。ご自身のStripeアカウントから取得したキーを以下の手順で設定してください。
 
-⓵ 以下のStripeダッシュボードにログインし,2つのテスト用キーを取得してください。URL：https://dashboard.stripe.com/test/apikeys
+⓵ Stripeライブラリのインストールを行います。
+
+```
+PHPコンテナ上
+
+composer require stripe/stripe-php
+```
+
+⓶ 以下のStripeダッシュボードにログインし,2つのテスト用キーを取得してください。URL：https://dashboard.stripe.com/test/apikeys
 
 ```
 ・公開可能キー（pk_test_ から始まる文字列）
 ・シークレットキー（sk_test_ から始まる文字列）
 ```
 
-⓶ .env ファイル、および .env.testing ファイルの末尾に、取得したキーを追記してください。
+⓷ .env ファイル、および .env.testing ファイルの末尾に、取得したキーを追記してください。
 
 ```
 .env
@@ -345,7 +356,7 @@ STRIPE_KEY=ここに公開可能キーを記述
 STRIPE_SECRET=ここにシークレットキーを記述
 ```
 
-⓷ 設定の反映
+⓸ 設定の反映
 設定を反映させるためにキャッシュをクリアしてください。
 
 ```

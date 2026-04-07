@@ -15,7 +15,6 @@ class Comment extends Model
         'comment',
     ];
 
-    // ここからリレーションの設定
     public function user()
     {
         return $this->belongsTo(User::class);

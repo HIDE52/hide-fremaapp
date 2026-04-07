@@ -11,19 +11,21 @@ class LoginTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
     public function test_login_failure_with_invalid_credentials()
     {
         $this->from('/login');
+
         $response = $this->post('/login', [
             'email' => 'notfound@example.com',
             'password' => 'wrongpassword',
         ]);
+
         $response->assertRedirect('/login');
-        $response->assertSessionHasErrors(['email' => 'ログイン情報が登録されていません']);
+        $response->assertSessionHasErrors([
+            'email' => 'ログイン情報が登録されていません'
+        ]);
     }
 
-    /** @test */
     public function test_user_can_login_with_correct_credentials()
     {
         $user = User::factory()->create([

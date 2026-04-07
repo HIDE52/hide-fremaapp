@@ -10,7 +10,6 @@ class LoginValidationTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * @test
      * @dataProvider loginValidationProvider
      */
     public function test_login_validation($invalidData, $errorMessage, $errorKey)
@@ -24,17 +23,17 @@ class LoginValidationTest extends TestCase
     public function loginValidationProvider()
     {
         return [
-            'メールアドレスが未入力' => [
+            'メールアドレスを入力してください' => [
                 ['email' => '', 'password' => 'password123'],
                 'メールアドレスを入力してください',
                 'email'
             ],
-            'パスワードが未入力' => [
+            'パスワードを入力してください' => [
                 ['email' => 'test@example.com', 'password' => ''],
                 'パスワードを入力してください',
                 'password'
             ],
-            'メール形式不備' => [
+            'メールアドレスはメール形式で入力してください' => [
                 ['email' => 'invalid-email', 'password' => 'password123'],
                 'メールアドレスはメール形式で入力してください',
                 'email'

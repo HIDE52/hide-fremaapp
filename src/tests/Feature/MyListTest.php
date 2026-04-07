@@ -12,8 +12,7 @@ class MyListTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
-    public function only_liked_items_are_displayed()
+    public function test_only_liked_items_are_displayed()
     {
         $user = User::factory()->create();
         $this->actingAs($user);
@@ -30,8 +29,7 @@ class MyListTest extends TestCase
         $response->assertDontSee('普通の商品');
     }
 
-    /** @test */
-    public function sold_label_is_displayed_in_mylist()
+    public function test_sold_label_is_displayed_in_mylist()
     {
         $user = User::factory()->create();
         $this->actingAs($user);
@@ -47,8 +45,7 @@ class MyListTest extends TestCase
         $response->assertSee('Sold');
     }
 
-    /** @test */
-    public function nothing_is_displayed_when_unauthenticated()
+    public function test_nothing_is_displayed_when_unauthenticated()
     {
         $response = $this->get('/?tab=mylist');
         $response->assertStatus(200);

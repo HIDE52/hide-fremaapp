@@ -11,27 +11,25 @@ class CommentTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
-    public function authenticated_user_can_send_comment()
+    public function test_authenticated_user_can_send_comment()
     {
         $user = User::factory()->create([
             'email_verified_at' => now(),
         ]);
         $item = Item::factory()->create();
 
-        $this->actingAs($user)->post("/item/{$item->id}/comment", ['comment' => 'Hello']);
+        $this->actingAs($user)->post("/item/{$item->id}/comment", ['comment' => 'こんにちは！']);
 
-        $this->assertDatabaseHas('comments', ['comment' => 'Hello']);
-        $this->get("/item/{$item->id}")->assertSee('Hello');
+        $this->assertDatabaseHas('comments', ['comment' => 'こんにちは！']);
+        $this->get("/item/{$item->id}")->assertSee('こんにちは！');
     }
 
-    /** @test */
-    public function guest_user_cannot_send_comment()
+    public function test_guest_user_cannot_send_comment()
     {
         $item = Item::factory()->create();
-        $response = $this->post("/item/{$item->id}/comment", ['comment' => 'No login']);
+        $response = $this->post("/item/{$item->id}/comment", ['comment' => '未ログインの投稿']);
 
-        $this->assertDatabaseMissing('comments', ['comment' => 'No login']);
+        $this->assertDatabaseMissing('comments', ['comment' => '未ログインの投稿']);
         $response->assertRedirect('/login');
     }
 }
