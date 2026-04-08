@@ -24,6 +24,7 @@ cd coachtechフリマ
 docker-compose up -d --build
 code .
 ```
+
 ※画像処理(GD)等の必要な環境が自動でインストールされます
 
 ⓷「Docker Desktop 」の確認を行い、「coachtechフリマ」コンテナが作成されているか確認を行います。
@@ -71,6 +72,7 @@ DB_PASSWORD=laravel_pass
 
 2. メールサーバー（MailHog）との接続設定の編集を行います。
 
+```
 .envファイル
 
 MAIL_MAILER=smtp
@@ -82,7 +84,6 @@ MAIL_ENCRYPTION=null
 MAIL_FROM_ADDRESS=
 MAIL_FROM_NAME="${APP_NAME}"
 ※MAIL_FROM_ADDRESS=　の後に、ご自身のメールアドレスを設定して下さい。
-
 ```
 
 ⓹ セキュリティに必要な「鍵」を作ります。
@@ -155,7 +156,7 @@ docker-compose exec mysql bash
 
 ```
 
-2. rootユーザ（管理者)でログインします。
+2. rootユーザ（管理者）でログインします。
 
 ```
 
@@ -180,144 +181,83 @@ exit
 
 ⓶ テスト環境の設定
 
-1. configディレクトリの中のdatabase.phpの編集をします。
+1. PHPコンテナへ移動します。
 
 ```
+コマンドライン上
 
-database.php
-
-'mysql' => [
-// 中略
-],
-
-- 'mysql_test' => [
-- 'driver' => 'mysql',
-- 'url' => env('DATABASE_URL'),
-- 'host' => env('DB_HOST', '127.0.0.1'),
-- 'port' => env('DB_PORT', '3306'),
-- 'database' => 'demo_test',
-- 'username' => 'root',
-- 'password' => 'root',
-- 'unix_socket' => env('DB_SOCKET', ''),
-- 'charset' => 'utf8mb4',
-- 'collation' => 'utf8mb4_unicode_ci',
-- 'prefix' => '',
-- 'prefix_indexes' => true,
-- 'strict' => true,
-- 'engine' => null,
-- 'options' => extension_loaded('pdo_mysql') ? array_filter([
-- PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
-- ]) : [],
-- ],
-
+docker-compose exec php bash
 ```
 
-⓷ テスト用の.envファイル作成
-
-1. ･PHPコンテナにログインし、.envをコピーして.env.testingを作成します。
+2. .envをコピーして.テスト用の設定ファイル作成をします。
 
 ```
 
 PHPコンテナ上
 
 cp .env .env.testing
-
 ```
 
-2. .env.testingの文頭部分のAPP_ENVとAPP_KEYを編集します。
+3. .env.testingの文頭部分のAPP_ENVとAPP_KEYを編集します。
 
 ```
 
 .env.testing
 
 APP_NAME=Laravel
-
 - APP_ENV=local
 - APP_KEY=base64:vPtYQu63T1fmcyeBgEPd0fJ+jvmnzjYMaUf7d5iuB+c=
-
-* APP_ENV=test
-* APP_KEY=
-  APP_DEBUG=true
-  APP_URL=http://localhost
-
++ APP_ENV=test
++ APP_KEY=
+APP_DEBUG=true
+APP_URL=http://localhost
 ```
 
-3. .env.testingにデータベースの接続情報を加えます。
+4. .env.testing を開き、データベースの接続先をテスト用（demo_test）に書き換えます。
 
 ```
 
 .env.testing
 
-- DB_CONNECTION=mysql
-
-* DB_CONNECTION=mysql_test
+  DB_CONNECTION=mysql_test
   DB_HOST=mysql
   DB_PORT=3306
-
 - DB_DATABASE=laravel_db
 - DB_USERNAME=laravel_user
 - DB_PASSWORD=laravel_pass
-
-* DB_DATABASE=demo_test
-* DB_USERNAME=root
-* DB_PASSWORD=root
-
++ DB_DATABASE=demo_test
++ DB_USERNAME=root
++ DB_PASSWORD=root
 ```
 
-4. APP_KEYに新たなテスト用のアプリケーションキーを加えます。
+5. テスト用のアプリケーションキーを作成します。
 
 ```
 
 PHPコンテナ上
 
 php artisan key:generate --env=testing
-
 ```
 
-5. 反映をしやすいようにキャッシュの削除を行います。
+6. 反映をしやすいようにキャッシュの削除を行います。
 
 ```
 
 PHPコンテナ上
 
 php artisan config:clear
-
 ```
 
-6. マイグレーションコマンドを実行して、テスト用のテーブルを作成します。
+7. マイグレーションコマンドを実行して、テスト用のテーブルを作成します。
 
 ```
 
 PHPコンテナ上
 
 php artisan migrate --env=testing
-
 ```
 
-⓸ phpunitの編集
-
-1. phpunit.xmlの<php>セクションの編集を行います。
-
-```
-
-phpunit.xml
-
- <php>
-     <server name="APP_ENV" value="testing"/>
-     <server name="BCRYPT_ROUNDS" value="4"/>
-     <server name="CACHE_DRIVER" value="array"/>
-   - <!-- <server name="DB_CONNECTION" value="sqlite"/> -->
-   - <!-- <server name="DB_DATABASE" value=":memory:"/> -->
-   + <server name="DB_CONNECTION" value="mysql_test"/>
-   + <server name="DB_DATABASE" value="demo_test"/>
-     <server name="MAIL_MAILER" value="array"/>
-     <server name="QUEUE_CONNECTION" value="sync"/>
-     <server name="SESSION_DRIVER" value="array"/>
-     <server name="TELESCOPE_ENABLED" value="false"/>
- </php>
-```
-
-⓹ テストの実施
+⓷ テストの実施
 
 1. テスト用のデータベースでテストのコマンドを実施します。
 
@@ -325,13 +265,14 @@ phpunit.xml
 PHPコンテナ上
 
 php artisan test tests
-```
 
 5⃣ Stripe決済のテスト設定
 
 本アプリケーションの決済機能（Stripe）をテスト・動作確認を行うためには、Stripeのテスト用APIキーが必要です。ご自身のStripeアカウントから取得したキーを以下の手順で設定してください。
 
-⓵ Stripeライブラリのインストールを行います。
+⓵ Stripeライブラリの確認
+
+通常は `composer install` 実行時に自動でインストールされますが、もし決済機能が動作しない場合は、以下のコマンドを個別に実行してください。
 
 ```
 PHPコンテナ上
@@ -339,7 +280,7 @@ PHPコンテナ上
 composer require stripe/stripe-php
 ```
 
-⓶ 以下のStripeダッシュボードにログインし,2つのテスト用キーを取得してください。URL：https://dashboard.stripe.com/test/apikeys
+⓶ 以下のStripeダッシュボードにログインし,2つのテスト用キーを取得してください。<br/>URL：https://dashboard.stripe.com/test/apikeys
 
 ```
 ・公開可能キー（pk_test_ から始まる文字列）
@@ -352,8 +293,8 @@ composer require stripe/stripe-php
 .env
 .env.testing
 
-STRIPE_KEY=ここに公開可能キーを記述
-STRIPE_SECRET=ここにシークレットキーを記述
+STRIPE_PUBLIC_KEY=ここに公開可能キーを記述
+STRIPE_SECRET_KEY=ここにシークレットキーを記述
 ```
 
 ⓸ 設定の反映
@@ -365,31 +306,15 @@ PHPコンテナ上
 php artisan config:clear
 ```
 
-6⃣　メール認証機能の設定
+6⃣ メール認証機能の設定
 
-本アプリケーションではセキュリティ向上のため、メール認証を導入しています。開発環境ではメールテスト用サーバー（MailHog）を使用します。
+本アプリケーションではセキュリティ向上のため、メール認証を導入しています。開発環境ではメールテスト用サーバー（MailHog）を使用して、実際に届くメールを確認できます。
 
-⓵ docker-compose.ymlファイルの末尾に、MailHogの設定を追記します。
+⓵ MailHog 管理画面の確認
 
-```
-docker-compose.yml
+以下の URL にアクセスし、MailHog の受信トレイが表示されるか確認してください。<br/>URL：http://localhost:8025/
 
-mailhog:
-  image: mailhog/mailhog
-  ports:
-```
-
-⓶　設定を書き終えたら、以下にコマンドを実行します。
-
-```
-コマンドライン上
-
-docker-compose up -d
-```
-
-⓷ 以下のMailHogの管理画面（受信トレイ）が表示されるか確認をしてください。URL：http://localhost:8025/
-
-⓸ 動作確認手順
+⓶ 動作確認の手順
 
 1. アプリの新規登録画面（/register）でユーザー登録を行います。
 
@@ -416,7 +341,7 @@ docker-compose up -d
 phpMyAdmin (DB確認ツール)：http://localhost:8080/<br/>
 メール確認 (Mailhog):http://localhost:8025/<br/>
 Stripeダッシュボード:https://dashboard.stripe.com/test/apikeys<br/>
-MailHogの管理画面（受信トレイ)：http://localhost:8025/
+MailHogの管理画面（受信トレイ）：http://localhost:8025/
 
 ## ER図
 
