@@ -51,9 +51,4 @@ class UserController extends Controller
 
         return view('item_purchase', compact('item', 'user', 'address', 'postcode', 'building'));
     }
-
-    public function buy(Request $request, $item_id)
-    {
-        return redirect()->route('item.index')->with('message', '購入が完了しました');
-    }
 }

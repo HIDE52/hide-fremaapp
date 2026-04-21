@@ -219,7 +219,8 @@ APP_URL=http://localhost
 
 .env.testing
 
-  DB_CONNECTION=mysql_test
+- DB_CONNECTION=mysql
++ DB_CONNECTION=mysql_test
   DB_HOST=mysql
   DB_PORT=3306
 - DB_DATABASE=laravel_db
@@ -265,6 +266,7 @@ php artisan migrate --env=testing
 PHPコンテナ上
 
 php artisan test tests
+```
 
 5⃣ Stripe決済のテスト設定
 

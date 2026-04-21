@@ -83,17 +83,15 @@
     cursor: pointer;
     text-decoration: none;
     line-height: 1;
+    display: inline-block;
 }
 
 .item-detail__icon--heart,
 .item-detail__icon--comment {
-    font-size: 60px;
-    color: #ccc;
+    width: 40px;
+    height: auto;
     display: block;
-}
-
-.item-detail__icon--heart.is-liked {
-    color: #ff5a5f;
+    pointer-events: none;
 }
 
 .item-detail__count {
@@ -111,7 +109,7 @@
 }
 
 .item-detail__description-content {
-    min-height: 150px;
+    margin-bottom: 20px;
 }
 
 .item-detail__description-text {

@@ -32,7 +32,9 @@
                 <form action="{{ route('like.store', ['item_id' => $item->id]) }}" method="POST">
                     @csrf
                     <button type="submit" class="item-detail__like-btn">
-                        <span class="item-detail__icon--heart {{ $item->isLikedByAuthUser() ? 'is-liked' : '' }}">❤</span>
+                        <img src="{{ $item->isLikedByAuthUser() ? asset('css/img/ハートロゴ_ピンク.png') : asset('css/img/ハートロゴ_デフォルト.png') }}" 
+                             alt="いいね" 
+                             class="item-detail__icon--heart">
                     </button>
                 </form>
                 <span class="item-detail__count">{{ $item->likes->count() }}</span>
@@ -40,7 +42,7 @@
 
             <div class="item-detail__action-item">
                 <a href="#comment-list" class="item-detail__comment-link">
-                    <span class="item-detail__icon--comment">💬</span>
+                    <img src="{{ asset('css/img/ふきだしロゴ.png') }}" alt="コメント" class="item-detail__icon--comment">
                 </a>
                 <span class="item-detail__count">{{ $item->comments->count() }}</span>
             </div>

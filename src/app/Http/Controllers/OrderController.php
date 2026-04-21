@@ -6,9 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Item;
 use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Stripe\Stripe;
-use Stripe\PaymentIntent;
+use Stripe\Checkout\Session;
 use App\Http\Requests\PurchaseRequest;
 use App\Http\Requests\AddressRequest;
 
@@ -51,48 +50,37 @@ class OrderController extends Controller
         $address  = $sessionAddress['address'] ?? $request->address;
         $building = $sessionAddress['building'] ?? $request->building;
 
-        return DB::transaction(function () use ($request, $item, $user, $postcode, $address, $building) {
-            try {
-                $stripe_id = null;
-                $status = 'succeeded';
+        Stripe::setApiKey(config('services.stripe.secret'));
 
-                if ($request->payment_method === 'card') {
-                    Stripe::setApiKey(config('services.stripe.secret'));
+        $checkout_session = Session::create([
+            'payment_method_types' => [$request->payment_method === 'card' ? 'card' : 'konbini'],
+            'line_items' => [[
+                'price_data' => [
+                    'currency' => 'jpy',
+                    'product_data' => ['name' => $item->name],
+                    'unit_amount' => $item->price,
+                ],
+                'quantity' => 1,
+            ]],
+            'mode' => 'payment',
+            'success_url' => route('item.index'),
+            'cancel_url' => route('item.purchase', ['item_id' => $item->id]),
+        ]);
 
-                    $intent = PaymentIntent::create([
-                        'amount' => $item->price,
-                        'currency' => 'jpy',
-                        'payment_method_data' => [
-                            'type' => 'card',
-                            'card' => ['token' => $request->stripeToken],
-                        ],
-                        'confirm' => true,
-                        'description' => '商品購入: ' . $item->name,
-                        'off_session' => true,
-                    ]);
+        Order::create([
+            'user_id' => $user->id,
+            'item_id' => $item->id,
+            'price' => $item->price,
+            'postcode' => $postcode,
+            'address' => $address,
+            'building' => $building,
+            'payment_method' => $request->payment_method,
+            'stripe_id' => $checkout_session->id,
+            'status' => 'pending',
+        ]);
 
-                    $stripe_id = $intent->id;
-                    $status = $intent->status;
-                }
+        session()->forget('shipping_address');
 
-                Order::create([
-                    'user_id' => $user->id,
-                    'item_id' => $item->id,
-                    'price' => $item->price,
-                    'postcode' => $postcode,
-                    'address' => $address,
-                    'building' => $building,
-                    'payment_method' => $request->payment_method,
-                    'stripe_id' => $stripe_id,
-                    'status' => $status,
-                ]);
-
-                session()->forget('shipping_address');
-
-                return redirect()->route('item.index')->with('message', '購入が完了しました');
-            } catch (\Exception $e) {
-                return back()->with('error', '決済に失敗しました: ' . $e->getMessage());
-            }
-        });
+        return redirect($checkout_session->url, 303);
     }
 }
