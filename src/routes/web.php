@@ -12,7 +12,7 @@ Route::get('/', [ItemController::class, 'index'])->name('item.index');
 Route::get('/item/{item_id}', [ItemController::class, 'show'])->name('item.show');
 
 Route::middleware('auth', 'verified')->group(function () {
-    Route::get('/home', [UserController::class, 'redirectAfterLogin'])->name('home');
+    // Route::get('/', [UserController::class, 'redirectAfterLogin'])->name('home');
 
     Route::get('/sell', [ItemController::class, 'create'])->name('item.create');
     Route::post('/sell', [ItemController::class, 'store'])->name('item.store');

@@ -13,6 +13,13 @@ class ItemController extends Controller
     public function index(Request $request)
     {
         $user = Auth::user();
+
+        if ($user) {
+            if (!$user->isProfileComplete()) {
+                return redirect()->route('profile.edit');
+            }
+        }
+
         $tab = $request->query('tab');
         $keyword = $request->query('keyword');
 

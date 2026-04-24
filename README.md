@@ -55,34 +55,16 @@ PHPコンテナ上
 cp .env.example .env
 ```
 
-⓸ .env ファイルを開き、以下の項目をdocker-compose.yml の設定に合わせて 書き換えて保存します。
+⓸ .env ファイルを開き、以下の設定を確認・編集します。
 
-1. アプリケーションとデータベースを繋ぐための編集を行います。
+（.env.example に最適化済みの設定が入っているため、基本的にはそのままで動作します）
 
-```
-.envファイル
-
-DB_CONNECTION=mysql
-DB_HOST=mysql
-DB_PORT=3306
-DB_DATABASE=laravel_db
-DB_USERNAME=laravel_user
-DB_PASSWORD=laravel_pass
-```
-
-2. メールサーバー（MailHog）との接続設定の編集を行います。
+1. メールサーバー（MailHog）との接続設定の編集を行います。
 
 ```
 .envファイル
 
-MAIL_MAILER=smtp
-MAIL_HOST=mailhog
-MAIL_PORT=1025
-MAIL_USERNAME=null
-MAIL_PASSWORD=null
-MAIL_ENCRYPTION=null
 MAIL_FROM_ADDRESS=
-MAIL_FROM_NAME="${APP_NAME}"
 ※MAIL_FROM_ADDRESS=　の後に、ご自身のメールアドレスを設定して下さい。
 ```
 
@@ -189,67 +171,26 @@ exit
 docker-compose exec php bash
 ```
 
-2. .envをコピーして.テスト用の設定ファイル作成をします。
+2. テスト用の設定ファイル作成をします。
 
 ```
 
 PHPコンテナ上
 
-cp .env .env.testing
+cp .env.testing.example .env.testing
 ```
 
-3. .env.testingの文頭部分のAPP_ENVとAPP_KEYを編集します。
-
-```
-
-.env.testing
-
-APP_NAME=Laravel
-- APP_ENV=local
-- APP_KEY=base64:vPtYQu63T1fmcyeBgEPd0fJ+jvmnzjYMaUf7d5iuB+c=
-+ APP_ENV=test
-+ APP_KEY=
-APP_DEBUG=true
-APP_URL=http://localhost
-```
-
-4. .env.testing を開き、データベースの接続先をテスト用（demo_test）に書き換えます。
-
-```
-
-.env.testing
-
-- DB_CONNECTION=mysql
-+ DB_CONNECTION=mysql_test
-  DB_HOST=mysql
-  DB_PORT=3306
-- DB_DATABASE=laravel_db
-- DB_USERNAME=laravel_user
-- DB_PASSWORD=laravel_pass
-+ DB_DATABASE=demo_test
-+ DB_USERNAME=root
-+ DB_PASSWORD=root
-```
-
-5. テスト用のアプリケーションキーを作成します。
+3. テスト用のアプリケーションキーを作成し、キャッシュをクリアします。
 
 ```
 
 PHPコンテナ上
 
 php artisan key:generate --env=testing
-```
-
-6. 反映をしやすいようにキャッシュの削除を行います。
-
-```
-
-PHPコンテナ上
-
 php artisan config:clear
 ```
 
-7. マイグレーションコマンドを実行して、テスト用のテーブルを作成します。
+4. マイグレーションコマンドを実行して、テスト用のテーブルを作成します。
 
 ```
 

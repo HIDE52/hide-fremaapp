@@ -43,14 +43,6 @@
                 </div>
             </div>
 
-            <div id="card-form-container" class="purchase__group" style="display: none;">
-                <label class="purchase__label">カード情報</label>
-                <div class="purchase__card-wrapper">
-                    <div id="card-element" class="stripe-input"></div>
-                    <div id="card-errors" role="alert" class="error-message"></div>
-                </div>
-            </div>
-
             <div class="purchase__group is-bordered">
                 <div class="purchase__address-header">
                     <label class="purchase__label">配送先</label>
@@ -88,66 +80,33 @@
 
 <script src="https://js.stripe.com/v3/"></script>
 <script>
-    const stripe = Stripe("{{ config('services.stripe.key') }}"); 
-    const elements = stripe.elements();
-    const card = elements.create('card', {
-        hidePostalCode: true
-    });
-
     const paymentSelect = document.getElementById('payment_method');
     const displayPayment = document.getElementById('display-payment');
-    const cardFormContainer = document.getElementById('card-form-container');
     const btn = document.getElementById('purchase-button');
+    const form = document.getElementById('payment-form');
 
-    function toggleCardInput() {
+    // 右側の「支払い方法」表示を更新するだけの関数
+    function updateDisplay() {
         const selectedOption = paymentSelect.options[paymentSelect.selectedIndex];
         displayPayment.textContent = (paymentSelect.value) ? selectedOption.text : '選択してください';
-
-        if (paymentSelect.value === 'card') {
-            cardFormContainer.style.display = 'block';
-            card.mount('#card-element');
-        } else {
-            cardFormContainer.style.display = 'none';
-            card.unmount();
-        }
     }
 
-    paymentSelect.addEventListener('change', toggleCardInput);
-    window.addEventListener('DOMContentLoaded', toggleCardInput);
+    paymentSelect.addEventListener('change', updateDisplay);
+    window.addEventListener('DOMContentLoaded', updateDisplay);
 
-    const form = document.getElementById('payment-form');
-    form.addEventListener('submit', async (event) => {
-        if (paymentSelect.value !== 'card') {
+    // 送信時の処理
+    form.addEventListener('submit', (event) => {
+        // すでにボタンが押されていたら何もしない（二重送信防止）
+        if (btn.disabled) {
+            event.preventDefault();
             return;
         }
 
-        event.preventDefault();
-        if (btn.disabled) return;
-
+        // ボタンを無効化して「処理中」にする
         btn.disabled = true;
         btn.textContent = '処理中...';
-
-        try {
-            const {
-                token,
-                error
-            } = await stripe.createToken(card);
-            if (error) {
-                document.getElementById('card-errors').textContent = error.message;
-                btn.disabled = false;
-                btn.textContent = '購入する';
-            } else {
-                const hiddenInput = document.createElement('input');
-                hiddenInput.type = 'hidden';
-                hiddenInput.name = 'stripeToken';
-                hiddenInput.value = token.id;
-                form.appendChild(hiddenInput);
-                form.submit();
-            }
-        } catch (e) {
-            btn.disabled = false;
-            btn.textContent = '購入する';
-        }
+        
+        // そのままフォームを送信（LaravelのControllerへ飛ばす）
     });
 </script>
 @endsection
