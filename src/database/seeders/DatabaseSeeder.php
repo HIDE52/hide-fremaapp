@@ -23,5 +23,9 @@ class DatabaseSeeder extends Seeder
             CategoriesTableSeeder::class,
             ItemsTableSeeder::class,
         ]);
+
+        if (app()->isLocal()) {
+            $this->call(DeveloperSeeder::class);
+        }
     }
 }
